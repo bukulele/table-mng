@@ -26,7 +26,11 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.appContainer}>
         <Menu menuClick={handleMenuClick} />
-        <TableContainer data={dataLoaded} />
+        {dataLoaded ? (
+          <TableContainer data={dataLoaded} />
+        ) : (
+          <div className={styles.noData}>NO DATA</div>
+        )}
       </div>
     </main>
   );
