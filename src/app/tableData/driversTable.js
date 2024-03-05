@@ -1,0 +1,61 @@
+const DRIVERS_TABLE_FIELDS = [
+  { dataName: "ID", dataKey: "id" },
+  { dataName: "Driver ID", dataKey: "driver_id" },
+  { dataName: "Email", dataKey: "email" },
+  { dataName: "Status", dataKey: "status" },
+  { dataName: "Status Note", dataKey: "status_note" },
+  { dataName: "First Name", dataKey: "first_name" },
+  { dataName: "Last Name", dataKey: "last_name" },
+  { dataName: "Phone Number", dataKey: "phone_number" },
+  { dataName: "Date of Birth", dataKey: "date_of_birth" },
+  { dataName: "Hiring Date", dataKey: "hiring_date" },
+  { dataName: "Date of Leaving", dataKey: "date_of_leaving" },
+  { dataName: "Reason for Leaving", dataKey: "reason_for_leaving" },
+  { dataName: "Driver's License Number", dataKey: "drivers_license_number" },
+  { dataName: "License Scan", dataKey: "license_scan" },
+  { dataName: "DL Province", dataKey: "dl_province" },
+  { dataName: "DL expiration Date", dataKey: "dl_expiration_date" },
+  { dataName: "Abstract Issue Date", dataKey: "abstract_issue_date" },
+  { dataName: "Abstract Scan", dataKey: "abstract_scan" },
+  {
+    dataName: "Criminal Record Check Scan",
+    dataKey: "criminal_record_check_scan",
+  },
+  {
+    dataName: "Criminal Record Check Expiration Date",
+    dataKey: "criminal_record_check_expiration_date",
+  },
+  { dataName: "TDG Card Date", dataKey: "tdg_card_date" },
+  { dataName: "Good to Go Card Date", dataKey: "good_to_go_card_date" },
+  {
+    dataName: "Pre-employment Road Test Date",
+    dataKey: "pre_employment_road_test_date",
+  },
+  { dataName: "Application Date", dataKey: "application_date" },
+  {
+    dataName: "Reference Check Application",
+    dataKey: "reference_check_application",
+  },
+  {
+    dataName: "Consent to Personal Investigation",
+    dataKey: "consent_to_personal_investigation",
+  },
+  { dataName: "Log Book Reviewed Date", dataKey: "log_book_reviewed_date" },
+  {
+    dataName: "Certificate of Violations Scan",
+    dataKey: "certificate_of_violations_scan",
+  },
+  {
+    dataName: "Annual Driver Performance Review",
+    dataKey: "annual_driver_performance_review",
+  },
+  {
+    dataName: "Winter Course Completion Date",
+    dataKey: "winter_course_completion_date",
+  },
+  { dataName: "Winter Course Results", dataKey: "winter_course_results" },
+  { dataName: "Remarks Comments", dataKey: "remarks_comments" },
+  { dataName: "File Box Number", dataKey: "file_box_number" },
+  { dataName: "Routes", dataKey: "routes" },
+];
+export default DRIVERS_TABLE_FIELDS;

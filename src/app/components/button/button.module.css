@@ -1,0 +1,9 @@
+.menuPoint {
+  width: 100%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.menuPoint:hover {
+  background-color: antiquewhite;
+}

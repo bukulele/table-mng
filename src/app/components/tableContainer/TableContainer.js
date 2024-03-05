@@ -8,61 +8,81 @@ import {
   HeaderCell,
   Cell,
 } from "@table-library/react-table-library/table";
+import DRIVERS_TABLE_FIELDS from "@/app/tableData/driversTable";
+import { useTheme } from "@table-library/react-table-library/theme";
+import styles from "./tableContainer.module.css";
 
 function TableContainer({ data }) {
-  const COLUMNS = [
-    "ID",
-    "Status",
-    "Email",
-    "FirstName",
-    "LastName",
-    "PhoneNumber",
-    "DateOfBirth",
-    "HiringDate",
-    "DateOfLeaving",
-    "ReasonForLeaving",
-    "DriversLicenseNumber",
-    "DriversLicenseScan",
-    "DLProvince",
-    "DLExpirationDate",
-    "Abstract",
-    "Routes",
-    "CriminalRecordCheck",
-    "CriminalRecordCheckExpiration",
-    "TDGCardDate",
-    "GoodToGoCardDate",
-    "PreEmploymentRoadTestDate",
-    "ApplicationDate",
-    "ReferenceCheckApplication",
-    "ConsentToPersonalInvestigation",
-    "LogBookReviewedDate",
-    "CertificateOfViolations",
-    "AnnualDriverPerformanceReview",
-    "WinterCourseCompletionDate",
-    "Remarks",
-    "FileBoxNumber",
-  ];
+  const THEME = {
+    Table: `
+      max-width: 100%;
+      grid-template-columns: repeat(${DRIVERS_TABLE_FIELDS.length}, auto);
+      color: grey;
+    `,
+    Header: `
+      color: black;
+    `,
+    HeaderRow: `
+    `,
+    Row: `
+      &:hover {
+        color: black;
+      }
+    `,
+    HeaderCell: `
+    width: 100%;
+    div {
+          width: fit-content;
+          max-width: 200px;
+          padding: 5px;
+          white-space: break-spaces;
+          text-align: center;
+          overflow: unset;
+    }
+    `,
+    Cell: `
+    width: 100%;
+    div {
+          width: fit-content;
+          max-width: 200px;
+          overflow: clip;
+          padding: 5px;
+          display: flex;
+          justify-content: center;
+  }
+    `,
+  };
+  const theme = useTheme(THEME);
 
   const createTableHeader = () => {
-    let tableColumns = COLUMNS.map((item) => {
-      return <HeaderCell key={`header_${item}`}>{item}</HeaderCell>;
+    let tableColumns = DRIVERS_TABLE_FIELDS.map((item) => {
+      return (
+        <HeaderCell className={styles.cell} key={`header_${item.dataName}`}>
+          {item.dataName}
+        </HeaderCell>
+      );
     });
     return tableColumns;
   };
 
-  const fillTableRow = (item) => {
-    // console.log(item);
-    let tableRowCells = Object.keys(item).map((key, index) => {
-      console.log(key, item[key]);
-      return <Cell key={`cell_${item.ID}_${index}`}>{item[key]}</Cell>;
+  const fillTableRow = (driver) => {
+    let tableRowCells = DRIVERS_TABLE_FIELDS.map((field) => {
+      return (
+        <Cell
+          className={styles.cell}
+          key={`cell_${driver.id}_${field.dataKey}`}
+        >
+          {driver[field.dataKey]}
+        </Cell>
+      );
     });
     return tableRowCells;
   };
 
   return (
-    <div>
+    <div className={styles.tableContainer}>
       {data ? (
-        <Table data={{ nodes: [...data] }}>
+        <Table data={{ nodes: [...data] }} theme={theme}>
           {(tableList) => {
             return (
               <>
@@ -71,7 +91,7 @@ function TableContainer({ data }) {
                 </Header>
                 <Body>
                   {tableList.map((item) => (
-                    <Row key={item.ID} item={item}>
+                    <Row key={item.id} item={item}>
                       {fillTableRow(item)}
                     </Row>
                   ))}
@@ -80,7 +100,9 @@ function TableContainer({ data }) {
             );
           }}
         </Table>
-      ) : null}
+      ) : (
+        <div>NO DATA</div>
+      )}
     </div>
   );
 }
