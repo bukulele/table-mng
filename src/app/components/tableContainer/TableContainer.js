@@ -7,6 +7,7 @@ import {
   Row,
   HeaderCell,
   Cell,
+  useCustom,
 } from "@table-library/react-table-library/table";
 import DRIVERS_TABLE_FIELDS from "@/app/tableData/driversTable";
 import { useTheme } from "@table-library/react-table-library/theme";
@@ -19,6 +20,8 @@ import {
 } from "@table-library/react-table-library/sort";
 
 function TableContainer({ data }) {
+  const [search, setSearch] = useState("");
+
   const THEME = {
     Table: `
       max-width: 100%;
@@ -65,7 +68,15 @@ function TableContainer({ data }) {
     `,
   };
 
-  const tableData = { nodes: [...data] };
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const tableData = {
+    nodes: [...data].filter((item) =>
+      item.last_name.toLowerCase().includes(search.toLowerCase())
+    ),
+  };
 
   const theme = useTheme(THEME);
 
@@ -263,6 +274,16 @@ function TableContainer({ data }) {
 
   return (
     <div className={styles.tableContainer}>
+      <label htmlFor="search">
+        Search by Last Name:&nbsp;
+        <input
+          className={styles.searchBar}
+          id="search"
+          type="text"
+          value={search}
+          onChange={handleSearch}
+        />
+      </label>
       <Table data={tableData} theme={theme} sort={sort}>
         {(tableList) => {
           return (
