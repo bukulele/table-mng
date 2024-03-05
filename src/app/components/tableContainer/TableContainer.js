@@ -73,8 +73,11 @@ function TableContainer({ data }) {
   };
 
   const tableData = {
-    nodes: [...data].filter((item) =>
-      item.last_name.toLowerCase().includes(search.toLowerCase())
+    nodes: [...data].filter(
+      (item) =>
+        item.last_name.toLowerCase().includes(search.toLowerCase()) ||
+        item.first_name.toLowerCase().includes(search.toLowerCase()) ||
+        item.id.toString().includes(search.toString())
     ),
   };
 
@@ -275,7 +278,7 @@ function TableContainer({ data }) {
   return (
     <div className={styles.tableContainer}>
       <label htmlFor="search">
-        Search by Last Name:&nbsp;
+        Search by Name or ID:&nbsp;
         <input
           className={styles.searchBar}
           id="search"
