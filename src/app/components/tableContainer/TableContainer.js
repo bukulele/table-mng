@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Table,
   Header,
@@ -18,9 +18,12 @@ import {
   SortIconPositions,
   SortToggleType,
 } from "@table-library/react-table-library/sort";
+import copy from "copy-to-clipboard";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
+  const [showCopyDataWindow, setShowCopyDataWindow] = useState(false);
+  const timeoutRef = useRef(null);
 
   const THEME = {
     Table: `
@@ -262,12 +265,29 @@ function TableContainer({ data }) {
     return tableColumns;
   };
 
+  const handleCellClick = (data) => {
+    clearTimeout(timeoutRef.current);
+    setShowCopyDataWindow(true);
+    copy(data);
+    timeoutRef.current = setTimeout(() => {
+      setShowCopyDataWindow(false);
+    }, 3000);
+    console.log(data);
+  };
+
   const fillTableRow = (driver) => {
     let tableRowCells = DRIVERS_TABLE_FIELDS.map((field) => {
+      let copyCell = false;
+      if (field.dataKey === "phone_number" || field.dataKey === "email") {
+        copyCell = true;
+      }
       return (
         <Cell
           className={styles.cell}
           key={`cell_${driver.id}_${field.dataKey}`}
+          onClick={
+            copyCell ? () => handleCellClick(driver[field.dataKey]) : null
+          }
         >
           {driver[field.dataKey]}
         </Cell>
@@ -311,6 +331,21 @@ function TableContainer({ data }) {
           );
         }}
       </Table>
+      {showCopyDataWindow && (
+        <div
+          style={{
+            position: "absolute",
+            top: "5px",
+            right: "5px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+            borderRadius: "4px",
+          }}
+        >
+          Data copied to clipboard
+        </div>
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@
   width: 100%;
   padding: 0 5px;
   color: black;
+  position: relative;
 }
 
 .searchBarWrapper {
