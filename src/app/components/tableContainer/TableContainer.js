@@ -24,9 +24,11 @@ function TableContainer({ data }) {
   const [search, setSearch] = useState("");
   const [showCopyDataWindow, setShowCopyDataWindow] = useState(false);
   const timeoutRef = useRef(null);
+  const [counttest, setcounttest] = useState(0);
 
   const THEME = {
     Table: `
+      width: 100%;
       max-width: 100%;
       grid-template-columns: repeat(${DRIVERS_TABLE_FIELDS.length}, auto);
       color: grey;
@@ -48,19 +50,21 @@ function TableContainer({ data }) {
     HeaderCell: `
     width: 100%;
     div {
-          width: fit-content;
+          font-size: 14px;
+          min-width: 90px;
           max-width: 200px;
           padding: 5px;
           white-space: break-spaces;
           text-align: center;
           overflow: unset;
+          margin: auto;
     }
     `,
     Cell: `
     width: 100%;
     height: 30px;
     div {
-          width: fit-content;
+          min-width: 90px;
           max-width: 200px;
           overflow: clip;
           padding: 5px;
@@ -276,7 +280,7 @@ function TableContainer({ data }) {
   };
 
   const fillTableRow = (driver) => {
-    let tableRowCells = DRIVERS_TABLE_FIELDS.map((field) => {
+    let tableRowCells = DRIVERS_TABLE_FIELDS.map((field, index) => {
       let copyCell = false;
       if (field.dataKey === "phone_number" || field.dataKey === "email") {
         copyCell = true;
@@ -284,7 +288,7 @@ function TableContainer({ data }) {
       return (
         <Cell
           className={styles.cell}
-          key={`cell_${driver.id}_${field.dataKey}`}
+          key={`cell_${driver.id}_${index}`}
           onClick={
             copyCell ? () => handleCellClick(driver[field.dataKey]) : null
           }
@@ -313,7 +317,12 @@ function TableContainer({ data }) {
           Search by Driver ID, First Name, Last Name or phone number{" "}
         </p>
       </div>
-      <Table data={tableData} theme={theme} sort={sort}>
+      <Table
+        data={tableData}
+        theme={theme}
+        sort={sort}
+        layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
+      >
         {(tableList) => {
           return (
             <>

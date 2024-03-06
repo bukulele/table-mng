@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.appContainer}>
-        <Menu menuClick={handleMenuClick} />
+        <Menu menuClick={handleMenuClick} menuPointChosen={menuPointChosen} />
         {dataLoaded ? (
           <TableContainer data={dataLoaded} />
         ) : (

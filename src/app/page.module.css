@@ -2,18 +2,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   min-height: 100vh;
+  max-height: 100vh;
   background-color: #fff;
 }
 
 .appContainer {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 15% 85%;
   border: 1px solid grey;
-  border-radius: 10px;
-  width: 80%;
-  height: 600px;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  flex: 1;
+  overflow: hidden;
 }
 
 .noData {
