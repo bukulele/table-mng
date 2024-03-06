@@ -329,7 +329,11 @@ function TableContainer({ data }) {
               </Header>
               <Body>
                 {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
+                  <Row
+                    className={item.status === "TR" ? styles.red : ""}
+                    key={item.id}
+                    item={item}
+                  >
                     {fillTableRow(item)}
                   </Row>
                 ))}
