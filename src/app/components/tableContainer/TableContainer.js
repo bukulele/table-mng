@@ -24,7 +24,6 @@ function TableContainer({ data }) {
   const [search, setSearch] = useState("");
   const [showCopyDataWindow, setShowCopyDataWindow] = useState(false);
   const timeoutRef = useRef(null);
-  const [counttest, setcounttest] = useState(0);
 
   const THEME = {
     Table: `
@@ -32,7 +31,6 @@ function TableContainer({ data }) {
       max-width: 100%;
       grid-template-columns: repeat(${DRIVERS_TABLE_FIELDS.length}, auto);
       color: grey;
-      padding: 10px 0;
     `,
     Header: `
       color: black;
