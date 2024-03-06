@@ -4,7 +4,25 @@
   color: black;
 }
 
+.searchBarWrapper {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .searchBar {
   background-color: white;
   color: black;
+}
+
+.searchDescription {
+  color: gray;
+  font-size: 10px;
 }

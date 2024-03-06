@@ -1,5 +1,4 @@
 const DRIVERS_TABLE_FIELDS = [
-  { dataName: "ID", dataKey: "id", sort: true },
   { dataName: "Driver ID", dataKey: "driver_id", sort: true },
   { dataName: "Email", dataKey: "email", sort: true },
   { dataName: "Status", dataKey: "status", sort: true },

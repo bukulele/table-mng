@@ -77,7 +77,8 @@ function TableContainer({ data }) {
       (item) =>
         item.last_name.toLowerCase().includes(search.toLowerCase()) ||
         item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-        item.id.toString().includes(search.toString())
+        item.driver_id.toLowerCase().includes(search.toLowerCase()) ||
+        item.phone_number.toString().includes(search.toString())
     ),
   };
 
@@ -277,16 +278,21 @@ function TableContainer({ data }) {
 
   return (
     <div className={styles.tableContainer}>
-      <label htmlFor="search">
-        Search by Name or ID:&nbsp;
-        <input
-          className={styles.searchBar}
-          id="search"
-          type="text"
-          value={search}
-          onChange={handleSearch}
-        />
-      </label>
+      <div className={styles.searchBarWrapper}>
+        <div className={styles.searchBarContainer}>
+          <label htmlFor="search">Search:</label>
+          <input
+            className={styles.searchBar}
+            id="search"
+            type="text"
+            value={search}
+            onChange={handleSearch}
+          />
+        </div>
+        <p className={styles.searchDescription}>
+          Search by Driver ID, First Name, Last Name or phone number{" "}
+        </p>
+      </div>
       <Table data={tableData} theme={theme} sort={sort}>
         {(tableList) => {
           return (
