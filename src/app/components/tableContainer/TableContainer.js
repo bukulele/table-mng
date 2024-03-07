@@ -19,10 +19,13 @@ import {
   SortToggleType,
 } from "@table-library/react-table-library/sort";
 import copy from "copy-to-clipboard";
+import Button from "../button/Button";
+import ModalContainer from "../modalContainer/ModalContainer";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
   const [showCopyDataWindow, setShowCopyDataWindow] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const timeoutRef = useRef(null);
 
   const THEME = {
@@ -31,6 +34,8 @@ function TableContainer({ data }) {
       max-width: 100%;
       grid-template-columns: repeat(${DRIVERS_TABLE_FIELDS.length}, auto);
       color: grey;
+      grid-column-start: 1;
+      grid-column-end: 3;
     `,
     Header: `
       color: black;
@@ -298,6 +303,14 @@ function TableContainer({ data }) {
     return tableRowCells;
   };
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <div className={styles.tableContainer}>
       <div className={styles.searchBarWrapper}>
@@ -314,6 +327,9 @@ function TableContainer({ data }) {
         <p className={styles.searchDescription}>
           Search by Driver ID, First Name, Last Name or phone number{" "}
         </p>
+      </div>
+      <div>
+        <Button content={"Choose columns"} fn={openModal} />
       </div>
       <Table
         data={tableData}
@@ -357,6 +373,7 @@ function TableContainer({ data }) {
           Data copied to clipboard
         </div>
       )}
+      <ModalContainer modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
 }
