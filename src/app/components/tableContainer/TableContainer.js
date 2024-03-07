@@ -31,7 +31,7 @@ function TableContainer({ data }) {
 
   const THEME = {
     Table: `
-      width: 100%;
+      width: fit-content;
       max-width: 100%;
       grid-template-columns: repeat(${
         DRIVERS_TABLE_FIELDS.length - hiddenColumns.length
@@ -39,8 +39,8 @@ function TableContainer({ data }) {
       color: grey;
       grid-column-start: 1;
       grid-column-end: 3;
-      background-color: gray;
-      row-gap: 1px;
+      height: fit-content;
+      max-height: 100%;
     `,
     Header: `
       color: black;
@@ -76,6 +76,7 @@ function TableContainer({ data }) {
           display: flex;
           justify-content: center;
           height: 100%;
+          border-bottom: 1px solid gray;
   }
     `,
   };

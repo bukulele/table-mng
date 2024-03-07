@@ -20,26 +20,6 @@ function HideColumnsModal({
     }
   };
 
-  // const createCheckList = () => {
-  //   let list = tableData.map((item) => {
-  //     return (
-  //       <div>
-  //         <label htmlFor={`columns_hide_${item.dataKey}`}>
-  //           <input
-  //             id={`columns_hide_${item.dataKey}`}
-  //             type="checkbox"
-  //             value="NAME"
-  //             checked={!hiddenColumns.includes(item.dataName)}
-  //             onChange={() => toggleColumn(item.dataName)}
-  //           />
-  //           {item.dataName}
-  //         </label>
-  //       </div>
-  //     );
-  //   });
-  //   return list;
-  // };
-
   useEffect(() => {
     Modal.setAppElement("body");
   }, []);
