@@ -1,0 +1,10 @@
+.listPoint {
+  display: flex;
+  gap: 5px;
+}
+.checkBox {
+  background-color: #fff;
+}
+.listContainer {
+  overflow-y: scroll;
+}

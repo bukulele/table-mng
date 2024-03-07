@@ -14,3 +14,15 @@
 .menuPoint-highlighted {
   background-color: antiquewhite;
 }
+
+.classicButton {
+  border: 2px solid gray;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.classicButton:hover {
+  background-color: antiquewhite;
+}

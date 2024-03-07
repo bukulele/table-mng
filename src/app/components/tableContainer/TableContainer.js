@@ -20,7 +20,7 @@ import {
 } from "@table-library/react-table-library/sort";
 import copy from "copy-to-clipboard";
 import Button from "../button/Button";
-import ModalContainer from "../modalContainer/ModalContainer";
+import HideColumnsModal from "../modalContainer/HideColumnsModal";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
@@ -324,8 +324,6 @@ function TableContainer({ data }) {
         return item.dataName;
       }
     }).filter((item) => item);
-    console.log(data);
-    console.log(columnsToHide);
     setHiddenColumns(columnsToHide);
   }, []);
 
@@ -346,8 +344,12 @@ function TableContainer({ data }) {
           Search by Driver ID, First Name, Last Name or phone number{" "}
         </p>
       </div>
-      <div>
-        <Button content={"Choose columns"} fn={openModal} />
+      <div className={styles.chooseColumnsWrapper}>
+        <Button
+          content={"Choose columns"}
+          fn={openModal}
+          style={"classicButton"}
+        />
       </div>
       <Table
         data={tableData}
@@ -395,7 +397,8 @@ function TableContainer({ data }) {
           Data copied to clipboard
         </div>
       )}
-      <ModalContainer
+      <HideColumnsModal
+        tableData={DRIVERS_TABLE_FIELDS}
         hiddenColumns={hiddenColumns}
         setHiddenColumns={setHiddenColumns}
         modalIsOpen={modalIsOpen}
