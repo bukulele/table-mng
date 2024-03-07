@@ -39,6 +39,8 @@ function TableContainer({ data }) {
       color: grey;
       grid-column-start: 1;
       grid-column-end: 3;
+      background-color: gray;
+      row-gap: 1px;
     `,
     Header: `
       color: black;
@@ -46,9 +48,6 @@ function TableContainer({ data }) {
     HeaderRow: `
     `,
     Row: `
-      div {
-        border-bottom: 1px solid grey;
-      }
       &:hover {
         color: black;
       }
@@ -396,7 +395,12 @@ function TableContainer({ data }) {
           Data copied to clipboard
         </div>
       )}
-      <ModalContainer modalIsOpen={modalIsOpen} closeModal={closeModal} />
+      <ModalContainer
+        hiddenColumns={hiddenColumns}
+        setHiddenColumns={setHiddenColumns}
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+      />
     </div>
   );
 }

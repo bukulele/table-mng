@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
-function ModalContainer({ modalIsOpen, closeModal }) {
+function ModalContainer({
+  hiddenColumns,
+  setHiddenColumns,
+  modalIsOpen,
+  closeModal,
+}) {
   useEffect(() => {
     Modal.setAppElement("body");
   }, []);
