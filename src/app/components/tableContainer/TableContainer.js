@@ -286,7 +286,6 @@ function TableContainer({ data }) {
     timeoutRef.current = setTimeout(() => {
       setShowCopyDataWindow(false);
     }, 3000);
-    console.log(data);
   };
 
   const fillTableRow = (driver) => {
@@ -319,6 +318,60 @@ function TableContainer({ data }) {
     setModalIsOpen(false);
   };
 
+  const escapeCsvCell = (cell) => {
+    if (cell == null) {
+      return "";
+    }
+    const sc = cell.toString().trim();
+    if (sc === "" || sc === '""') {
+      return sc;
+    }
+    if (
+      sc.includes('"') ||
+      sc.includes(",") ||
+      sc.includes("\n") ||
+      sc.includes("\r")
+    ) {
+      return '"' + sc.replace(/"/g, '""') + '"';
+    }
+    return sc;
+  };
+
+  const makeCsvData = (columns, data) => {
+    return data.reduce((csvString, rowItem) => {
+      return (
+        csvString +
+        columns
+          .map(({ accessor }) => escapeCsvCell(accessor(rowItem)))
+          .join(",") +
+        "\r\n"
+      );
+    }, columns.map(({ name }) => escapeCsvCell(name)).join(",") + "\r\n");
+  };
+
+  const downloadAsCsv = (columns, data, filename) => {
+    const csvData = makeCsvData(columns, data);
+    const csvFile = new Blob([csvData], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+
+    downloadLink.display = "none";
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
+  const handleDownloadCsv = () => {
+    const columns = DRIVERS_TABLE_FIELDS.map((driver) => {
+      return {
+        accessor: (item) => item[driver.dataKey],
+        name: driver.dataName,
+      };
+    });
+    downloadAsCsv(columns, tableData.nodes, "table");
+  };
+
   useEffect(() => {
     let columnsToHide = DRIVERS_TABLE_FIELDS.map((item) => {
       if (!item.show) {
@@ -345,10 +398,15 @@ function TableContainer({ data }) {
           Search by Driver ID, First Name, Last Name or phone number{" "}
         </p>
       </div>
-      <div className={styles.chooseColumnsWrapper}>
+      <div className={styles.settingsButtonsWrapper}>
         <Button
           content={"Choose columns"}
           fn={openModal}
+          style={"classicButton"}
+        />
+        <Button
+          content={"Download as CSV"}
+          fn={handleDownloadCsv}
           style={"classicButton"}
         />
       </div>
