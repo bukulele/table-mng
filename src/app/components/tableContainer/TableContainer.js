@@ -26,13 +26,16 @@ function TableContainer({ data }) {
   const [search, setSearch] = useState("");
   const [showCopyDataWindow, setShowCopyDataWindow] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [hiddenColumns, setHiddenColumns] = useState([]);
   const timeoutRef = useRef(null);
 
   const THEME = {
     Table: `
       width: 100%;
       max-width: 100%;
-      grid-template-columns: repeat(${DRIVERS_TABLE_FIELDS.length}, auto);
+      grid-template-columns: repeat(${
+        DRIVERS_TABLE_FIELDS.length - hiddenColumns.length
+      }, auto);
       color: grey;
       grid-column-start: 1;
       grid-column-end: 3;
@@ -255,6 +258,7 @@ function TableContainer({ data }) {
       if (item.sort) {
         return (
           <HeaderCellSort
+            hide={hiddenColumns.includes(item.dataName)}
             sortKey={item.dataKey}
             key={`header_${item.dataName}`}
           >
@@ -263,7 +267,10 @@ function TableContainer({ data }) {
         );
       } else {
         return (
-          <HeaderCell key={`header_${item.dataName}`}>
+          <HeaderCell
+            hide={hiddenColumns.includes(item.dataName)}
+            key={`header_${item.dataName}`}
+          >
             {item.dataName}
           </HeaderCell>
         );
@@ -290,6 +297,7 @@ function TableContainer({ data }) {
       }
       return (
         <Cell
+          hide={hiddenColumns.includes(field.dataName)}
           className={styles.cell}
           key={`cell_${driver.id}_${index}`}
           onClick={
@@ -310,6 +318,17 @@ function TableContainer({ data }) {
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  useEffect(() => {
+    let columnsToHide = DRIVERS_TABLE_FIELDS.map((item) => {
+      if (!item.show) {
+        return item.dataName;
+      }
+    }).filter((item) => item);
+    console.log(data);
+    console.log(columnsToHide);
+    setHiddenColumns(columnsToHide);
+  }, []);
 
   return (
     <div className={styles.tableContainer}>
@@ -335,7 +354,11 @@ function TableContainer({ data }) {
         data={tableData}
         theme={theme}
         sort={sort}
-        layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
+        layout={{
+          custom: true,
+          horizontalScroll: true,
+          fixedHeader: true,
+        }}
       >
         {(tableList) => {
           return (

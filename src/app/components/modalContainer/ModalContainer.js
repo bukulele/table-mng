@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 function ModalContainer({ modalIsOpen, closeModal }) {
@@ -25,11 +25,12 @@ function ModalContainer({ modalIsOpen, closeModal }) {
           backgroundColor: "#fff",
           padding: "20px",
           borderRadius: "5px",
+          color: "black",
         },
       }}
     >
       <h2>Modal Popup</h2>
-      <button onClick={closeModal}>Cancel</button>
+      <button onClick={closeModal}>Close</button>
     </Modal>
   );
 }
