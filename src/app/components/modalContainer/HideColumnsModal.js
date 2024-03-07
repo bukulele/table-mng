@@ -47,7 +47,10 @@ function HideColumnsModal({
   useEffect(() => {
     let list = tableData.map((item) => {
       return (
-        <div className={styles.listPoint}>
+        <div
+          key={`columns_hide_key_${item.dataKey}`}
+          className={styles.listPoint}
+        >
           <input
             id={`columns_hide_${item.dataKey}`}
             type="checkbox"
