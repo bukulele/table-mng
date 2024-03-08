@@ -48,3 +48,12 @@
   background-color: #ff0000 !important;
   color: #fff !important;
 }
+
+.inTableLink:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.copyCell:hover {
+  cursor: copy;
+}

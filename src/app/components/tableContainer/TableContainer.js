@@ -290,20 +290,36 @@ function TableContainer({ data }) {
 
   const fillTableRow = (driver) => {
     let tableRowCells = DRIVERS_TABLE_FIELDS.map((field, index) => {
-      let copyCell = false;
-      if (field.dataKey === "phone_number" || field.dataKey === "email") {
-        copyCell = true;
-      }
+      let copyCell =
+        field.dataKey === "phone_number" || field.dataKey === "email";
+
+      let cellIsLink =
+        field.dataKey === "license_scan" ||
+        field.dataKey === "abstract_scan" ||
+        field.dataKey === "criminal_record_check_scan" ||
+        field.dataKey === "certificate_of_violations_scan";
       return (
         <Cell
           hide={hiddenColumns.includes(field.dataName)}
-          className={styles.cell}
+          className={copyCell ? styles.copyCell : ""}
           key={`cell_${driver.id}_${index}`}
           onClick={
             copyCell ? () => handleCellClick(driver[field.dataKey]) : null
           }
         >
-          {driver[field.dataKey]}
+          {cellIsLink ? (
+            <a
+              className={styles.inTableLink}
+              target="_blank"
+              href={
+                "https://darcymagazine.com/wp-content/uploads/2021/07/funny-memes-40.jpg"
+              }
+            >
+              Open document
+            </a>
+          ) : (
+            driver[field.dataKey]
+          )}
         </Cell>
       );
     });
