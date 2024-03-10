@@ -21,6 +21,18 @@ import {
 import copy from "copy-to-clipboard";
 import Button from "../button/Button";
 import HideColumnsModal from "../modalContainer/HideColumnsModal";
+import {
+  useTree,
+  CellTree,
+  TreeExpandClickTypes,
+} from "@table-library/react-table-library/tree";
+import TableLine from "../tableLine/TableLine";
+import { findNodeById } from "@table-library/react-table-library/common";
+import LineIcon from "../tableLine/LineIcon";
+
+// import FolderIcon from "@mui/icons-material/Folder";
+// import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+// import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
@@ -68,6 +80,7 @@ function TableContainer({ data }) {
     Cell: `
     width: 100%;
     height: 30px;
+    position: relative;
     div {
           min-width: 90px;
           max-width: 200px;
@@ -77,7 +90,14 @@ function TableContainer({ data }) {
           justify-content: center;
           height: 100%;
           border-bottom: 1px solid gray;
-  }
+        }
+        &:first-of-type div {
+          max-width: 100%;
+
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
     `,
   };
 
@@ -95,6 +115,49 @@ function TableContainer({ data }) {
     ),
   };
 
+  const isLastChild = (nodes, node) => {
+    const parentNode = findNodeById(
+      nodes,
+      node.parentNode?.driver_id ? node.parentNode.driver_id.toString() : null
+    );
+
+    if (!parentNode && nodes[nodes.length - 1].driver_id === node.driver_id) {
+      return true;
+    } else if (
+      !parentNode &&
+      nodes[nodes.length - 1].driver_id !== node.driver_id
+    ) {
+      return false;
+    }
+
+    if (!parentNode?.nodes) return true;
+    return (
+      parentNode?.nodes[parentNode?.nodes.length - 1].driver_id ===
+      node.driver_id
+    );
+  };
+
+  const isFirstChild = (nodes, node) => {
+    return nodes[0].driver_id === node.driver_id;
+  };
+
+  const tree = useTree(
+    tableData,
+    {
+      onChange: (action, state) => {
+        console.log(action, state);
+      },
+    },
+    {
+      treeIcon: {
+        margin: "4px",
+        iconDefault: <LineIcon>{"1"}</LineIcon>,
+        iconRight: <LineIcon>{"2"}</LineIcon>,
+        iconDown: <LineIcon>{"3"}</LineIcon>,
+      },
+    }
+  );
+
   const theme = useTheme(THEME);
 
   const sort = useSort(
@@ -104,10 +167,10 @@ function TableContainer({ data }) {
     },
     {
       sortFns: {
-        id: (array) =>
-          array.sort((a, b) => {
-            return a.id - b.id;
-          }),
+        // id: (array) =>
+        //   array.sort((a, b) => {
+        //     return a.id - b.id;
+        //   }),
         driver_id: (array) =>
           array.sort((a, b) => a.driver_id.localeCompare(b.driver_id)),
         email: (array) => array.sort((a, b) => a.email.localeCompare(b.email)),
@@ -298,6 +361,20 @@ function TableContainer({ data }) {
         field.dataKey === "abstract_scan" ||
         field.dataKey === "criminal_record_check_scan" ||
         field.dataKey === "certificate_of_violations_scan";
+      if (index === 0) {
+        return (
+          <CellTree item={driver}>
+            <TableLine
+              isFirst={isFirstChild(tableData.nodes, driver)}
+              isLast={isLastChild(tableData.nodes, driver)}
+              treeXLevel={1}
+              // treeXLevel={item.treeXLevel}
+            >
+              {driver[field.dataKey]}
+            </TableLine>
+          </CellTree>
+        );
+      }
       return (
         <Cell
           hide={hiddenColumns.includes(field.dataName)}
@@ -435,6 +512,7 @@ function TableContainer({ data }) {
           horizontalScroll: true,
           fixedHeader: true,
         }}
+        tree={tree}
       >
         {(tableList) => {
           return (

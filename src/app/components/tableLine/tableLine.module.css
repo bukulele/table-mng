@@ -1,0 +1,4 @@
+.line-icon-container > * {
+  position: absolute;
+  pointer-events: none;
+}
