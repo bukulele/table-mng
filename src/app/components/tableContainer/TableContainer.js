@@ -11,6 +11,7 @@ import {
 } from "@table-library/react-table-library/table";
 import DRIVERS_TABLE_FIELDS from "@/app/tableData/driversTable";
 import { useTheme } from "@table-library/react-table-library/theme";
+import { getTheme } from "@table-library/react-table-library/baseline";
 import styles from "./tableContainer.module.css";
 import {
   useSort,
@@ -41,8 +42,35 @@ function TableContainer({ data }) {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const timeoutRef = useRef(null);
 
+  // const THEME = {
+  //   Table: `
+  //     width: fit-content;
+  //     max-width: 100%;
+  //     grid-template-columns: repeat(${
+  //       DRIVERS_TABLE_FIELDS.length - hiddenColumns.length
+  //     }, auto);
+  //     color: grey;
+  //     grid-column-start: 1;
+  //     grid-column-end: 3;
+  //     height: fit-content;
+  //     max-height: 100%;
+  //   `,
+  //   Header: `
+  //   `,
+  //   HeaderRow: `
+  //   `,
+  //   Row: `
+  //   `,
+  //   HeaderCell: `
+  //   `,
+  //   Cell: `
+  //   `,
+  // };
+
   const THEME = {
     Table: `
+      width: fit-content;
+      max-width: 100%;
       width: fit-content;
       max-width: 100%;
       grid-template-columns: repeat(${
@@ -54,52 +82,53 @@ function TableContainer({ data }) {
       height: fit-content;
       max-height: 100%;
     `,
-    Header: `
-      color: black;
-    `,
-    HeaderRow: `
-    `,
-    Row: `
-      &:hover {
-        color: black;
+    Header: ``,
+    Body: ``,
+    BaseRow: `
+      background-color: var(--theme-ui-colors-background);
+  
+      &.row-select-selected, &.row-select-single-selected {
+        background-color: var(--theme-ui-colors-background-secondary);
+        color: var(--theme-ui-colors-text);
       }
     `,
-    HeaderCell: `
-    width: 100%;
-    div {
-          font-size: 14px;
-          min-width: 90px;
-          max-width: 200px;
-          padding: 5px;
-          white-space: break-spaces;
-          text-align: center;
-          overflow: unset;
-          margin: auto;
-    }
+    HeaderRow: `
+      font-size: 10px;
+      color: var(--theme-ui-colors-text-light);
+  
+      .th {
+        border-bottom: 1px solid var(--theme-ui-colors-border);
+      }
     `,
-    Cell: `
-    width: 100%;
-    height: 30px;
-    position: relative;
-    div {
-          min-width: 90px;
-          max-width: 200px;
-          overflow: clip;
-          padding: 5px;
-          display: flex;
-          justify-content: center;
-          height: 100%;
-          border-bottom: 1px solid gray;
-        }
-        &:first-of-type div {
-          max-width: 100%;
-
-          height: 100%;
-          display: flex;
-          align-items: center;
-        }
+    Row: `
+      font-size: 12px;
+      color: var(--theme-ui-colors-text);
+  
+      &:not(:last-of-type) .td {
+        border-bottom: 1px solid var(--theme-ui-colors-border);
+      }
+  
+      &:hover {
+        color: var(--theme-ui-colors-text-light);
+      }
     `,
+    BaseCell: `
+      border-bottom: 1px solid transparent;
+      border-right: 1px solid transparent;
+  
+      padding: 8px;
+      height: 52px;
+  
+      svg {
+        fill: var(--theme-ui-colors-text);
+      }
+    `,
+    HeaderCell: ``,
+    Cell: ``,
   };
+
+  // const theme = useTheme(getTheme());
+  const theme = useTheme(THEME);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -144,26 +173,24 @@ function TableContainer({ data }) {
   const tree = useTree(
     tableData,
     {
-      onChange: (action, state) => {
-        console.log(action, state);
-      },
+      // onChange: (action, state) => {
+      //   console.log(action, state);
+      // },
     },
     {
-      treeIcon: {
-        margin: "4px",
-        iconDefault: <LineIcon>{"1"}</LineIcon>,
-        iconRight: <LineIcon>{"2"}</LineIcon>,
-        iconDown: <LineIcon>{"3"}</LineIcon>,
-      },
+      // treeIcon: {
+      //   margin: "4px",
+      //   iconDefault: <LineIcon>{"1"}</LineIcon>,
+      //   iconRight: <LineIcon>{"2"}</LineIcon>,
+      //   iconDown: <LineIcon>{"3"}</LineIcon>,
+      // },
     }
   );
-
-  const theme = useTheme(THEME);
 
   const sort = useSort(
     tableData,
     {
-      onChange: () => {},
+      // onChange: () => {},
     },
     {
       sortFns: {
@@ -363,15 +390,10 @@ function TableContainer({ data }) {
         field.dataKey === "certificate_of_violations_scan";
       if (index === 0) {
         return (
-          <CellTree item={driver}>
-            <TableLine
-              isFirst={isFirstChild(tableData.nodes, driver)}
-              isLast={isLastChild(tableData.nodes, driver)}
-              treeXLevel={1}
-              // treeXLevel={item.treeXLevel}
-            >
-              {driver[field.dataKey]}
-            </TableLine>
+          <CellTree item={driver} className={copyCell ? styles.copyCell : ""}>
+            {/* <TableLine isFirst={isFirstChild(tableData.nodes, driver)} isLast={isLastChild(tableData.nodes, driver)} treeXLevel={1} treeXLevel={item.treeXLevel}> */}
+            {driver[field.dataKey]}
+            {/* </TableLine> */}
           </CellTree>
         );
       }
@@ -508,7 +530,6 @@ function TableContainer({ data }) {
         theme={theme}
         sort={sort}
         layout={{
-          custom: true,
           horizontalScroll: true,
           fixedHeader: true,
         }}

@@ -11,6 +11,7 @@ function TableLine({ isFirst, isLast, treeXLevel, children }) {
           width: "9px",
           height: "40px",
           pointerEvents: "none",
+          border: "none",
         }}
       >
         <div
@@ -30,7 +31,7 @@ function TableLine({ isFirst, isLast, treeXLevel, children }) {
             top: "20px",
             left: `${19 + treeXLevel * 20}px`,
             width: "18px",
-            height: "1px",
+            // height: "1px",
           }}
         />
       </div>
@@ -46,7 +47,7 @@ function TableLine({ isFirst, isLast, treeXLevel, children }) {
           style={{
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
-            overflow: "hidden",
+            // overflow: "hidden",
           }}
         >
           {children}
