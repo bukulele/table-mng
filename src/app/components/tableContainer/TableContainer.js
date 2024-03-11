@@ -11,6 +11,7 @@ import {
 } from "@table-library/react-table-library/table";
 import DRIVERS_TABLE_FIELDS from "@/app/tableData/driversTable";
 import { useTheme } from "@table-library/react-table-library/theme";
+import { getTheme } from "@table-library/react-table-library/baseline";
 import styles from "./tableContainer.module.css";
 import {
   useSort,
@@ -21,6 +22,18 @@ import {
 import copy from "copy-to-clipboard";
 import Button from "../button/Button";
 import HideColumnsModal from "../modalContainer/HideColumnsModal";
+import {
+  useTree,
+  CellTree,
+  TreeExpandClickTypes,
+} from "@table-library/react-table-library/tree";
+import TableLine from "../tableLine/TableLine";
+import { findNodeById } from "@table-library/react-table-library/common";
+import LineIcon from "../tableLine/LineIcon";
+
+// import FolderIcon from "@mui/icons-material/Folder";
+// import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+// import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
@@ -29,8 +42,35 @@ function TableContainer({ data }) {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const timeoutRef = useRef(null);
 
+  // const THEME = {
+  //   Table: `
+  //     width: fit-content;
+  //     max-width: 100%;
+  //     grid-template-columns: repeat(${
+  //       DRIVERS_TABLE_FIELDS.length - hiddenColumns.length
+  //     }, auto);
+  //     color: grey;
+  //     grid-column-start: 1;
+  //     grid-column-end: 3;
+  //     height: fit-content;
+  //     max-height: 100%;
+  //   `,
+  //   Header: `
+  //   `,
+  //   HeaderRow: `
+  //   `,
+  //   Row: `
+  //   `,
+  //   HeaderCell: `
+  //   `,
+  //   Cell: `
+  //   `,
+  // };
+
   const THEME = {
     Table: `
+      width: fit-content;
+      max-width: 100%;
       width: fit-content;
       max-width: 100%;
       grid-template-columns: repeat(${
@@ -42,44 +82,52 @@ function TableContainer({ data }) {
       height: fit-content;
       max-height: 100%;
     `,
-    Header: `
-      color: black;
-    `,
-    HeaderRow: `
-    `,
-    Row: `
-      &:hover {
-        color: black;
+    Header: ``,
+    Body: ``,
+    BaseRow: `
+      background-color: #fff;
+  
+      &.row-select-selected, &.row-select-single-selected {
+        color: #000;
       }
     `,
-    HeaderCell: `
-    width: 100%;
-    div {
-          font-size: 14px;
-          min-width: 90px;
-          max-width: 200px;
-          padding: 5px;
-          white-space: break-spaces;
-          text-align: center;
-          overflow: unset;
-          margin: auto;
-    }
+    HeaderRow: `
+      font-size: 14px;
+      color: #000;
+  
+      .th {
+        border-bottom: 1px solid #000;
+      }
     `,
-    Cell: `
-    width: 100%;
-    height: 30px;
-    div {
-          min-width: 90px;
-          max-width: 200px;
-          overflow: clip;
-          padding: 5px;
-          display: flex;
-          justify-content: center;
-          height: 100%;
-          border-bottom: 1px solid gray;
-  }
+    Row: `
+      font-size: 12px;
+      color: gray;
+  
+      &:not(:last-of-type) .td {
+        border-bottom: 1px solid gray;
+      }
+  
+      &:hover {
+        color: #000;
+      }
     `,
+    BaseCell: `
+      border-bottom: 1px solid transparent;
+      border-right: 1px solid transparent;
+  
+      padding: 8px;
+      height: auto;
+  
+      svg {
+        fill: gray;
+      }
+    `,
+    HeaderCell: ``,
+    Cell: ``,
   };
+
+  // const theme = useTheme(getTheme());
+  const theme = useTheme(THEME);
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -95,19 +143,60 @@ function TableContainer({ data }) {
     ),
   };
 
-  const theme = useTheme(THEME);
+  // const isLastChild = (nodes, node) => {
+  //   const parentNode = findNodeById(
+  //     nodes,
+  //     node.parentNode?.driver_id ? node.parentNode.driver_id.toString() : null
+  //   );
+
+  //   if (!parentNode && nodes[nodes.length - 1].driver_id === node.driver_id) {
+  //     return true;
+  //   } else if (
+  //     !parentNode &&
+  //     nodes[nodes.length - 1].driver_id !== node.driver_id
+  //   ) {
+  //     return false;
+  //   }
+
+  //   if (!parentNode?.nodes) return true;
+  //   return (
+  //     parentNode?.nodes[parentNode?.nodes.length - 1].driver_id ===
+  //     node.driver_id
+  //   );
+  // };
+
+  // const isFirstChild = (nodes, node) => {
+  //   return nodes[0].driver_id === node.driver_id;
+  // };
+
+  const tree = useTree(
+    tableData,
+    {
+      // onChange: (action, state) => {
+      //   console.log(action, state);
+      // },
+    },
+    {
+      // treeIcon: {
+      //   margin: "4px",
+      //   iconDefault: <LineIcon>{"1"}</LineIcon>,
+      //   iconRight: <LineIcon>{"2"}</LineIcon>,
+      //   iconDown: <LineIcon>{"3"}</LineIcon>,
+      // },
+    }
+  );
 
   const sort = useSort(
     tableData,
     {
-      onChange: () => {},
+      // onChange: () => {},
     },
     {
       sortFns: {
-        id: (array) =>
-          array.sort((a, b) => {
-            return a.id - b.id;
-          }),
+        // id: (array) =>
+        //   array.sort((a, b) => {
+        //     return a.id - b.id;
+        //   }),
         driver_id: (array) =>
           array.sort((a, b) => a.driver_id.localeCompare(b.driver_id)),
         email: (array) => array.sort((a, b) => a.email.localeCompare(b.email)),
@@ -298,6 +387,19 @@ function TableContainer({ data }) {
         field.dataKey === "abstract_scan" ||
         field.dataKey === "criminal_record_check_scan" ||
         field.dataKey === "certificate_of_violations_scan";
+      if (index === 0) {
+        return (
+          <CellTree
+            key={`cell_${driver.id}_${index}`}
+            item={driver}
+            className={copyCell ? styles.copyCell : ""}
+          >
+            {/* <TableLine isFirst={isFirstChild(tableData.nodes, driver)} isLast={isLastChild(tableData.nodes, driver)} treeXLevel={1} treeXLevel={item.treeXLevel}> */}
+            {driver[field.dataKey]}
+            {/* </TableLine> */}
+          </CellTree>
+        );
+      }
       return (
         <Cell
           hide={hiddenColumns.includes(field.dataName)}
@@ -431,10 +533,10 @@ function TableContainer({ data }) {
         theme={theme}
         sort={sort}
         layout={{
-          custom: true,
           horizontalScroll: true,
           fixedHeader: true,
         }}
+        tree={tree}
       >
         {(tableList) => {
           return (
@@ -443,10 +545,10 @@ function TableContainer({ data }) {
                 <HeaderRow>{createTableHeader()}</HeaderRow>
               </Header>
               <Body>
-                {tableList.map((item) => (
+                {tableList.map((item, index) => (
                   <Row
                     className={item.status === "TR" ? styles.red : ""}
-                    key={item.id}
+                    key={`${item.id}_${index}`}
                     item={item}
                   >
                     {fillTableRow(item)}
