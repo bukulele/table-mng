@@ -85,31 +85,30 @@ function TableContainer({ data }) {
     Header: ``,
     Body: ``,
     BaseRow: `
-      background-color: var(--theme-ui-colors-background);
+      background-color: #fff;
   
       &.row-select-selected, &.row-select-single-selected {
-        background-color: var(--theme-ui-colors-background-secondary);
-        color: var(--theme-ui-colors-text);
+        color: #000;
       }
     `,
     HeaderRow: `
-      font-size: 10px;
-      color: var(--theme-ui-colors-text-light);
+      font-size: 14px;
+      color: #000;
   
       .th {
-        border-bottom: 1px solid var(--theme-ui-colors-border);
+        border-bottom: 1px solid #000;
       }
     `,
     Row: `
       font-size: 12px;
-      color: var(--theme-ui-colors-text);
+      color: gray;
   
       &:not(:last-of-type) .td {
-        border-bottom: 1px solid var(--theme-ui-colors-border);
+        border-bottom: 1px solid gray;
       }
   
       &:hover {
-        color: var(--theme-ui-colors-text-light);
+        color: #000;
       }
     `,
     BaseCell: `
@@ -117,10 +116,10 @@ function TableContainer({ data }) {
       border-right: 1px solid transparent;
   
       padding: 8px;
-      height: 52px;
+      height: auto;
   
       svg {
-        fill: var(--theme-ui-colors-text);
+        fill: gray;
       }
     `,
     HeaderCell: ``,
@@ -144,31 +143,31 @@ function TableContainer({ data }) {
     ),
   };
 
-  const isLastChild = (nodes, node) => {
-    const parentNode = findNodeById(
-      nodes,
-      node.parentNode?.driver_id ? node.parentNode.driver_id.toString() : null
-    );
+  // const isLastChild = (nodes, node) => {
+  //   const parentNode = findNodeById(
+  //     nodes,
+  //     node.parentNode?.driver_id ? node.parentNode.driver_id.toString() : null
+  //   );
 
-    if (!parentNode && nodes[nodes.length - 1].driver_id === node.driver_id) {
-      return true;
-    } else if (
-      !parentNode &&
-      nodes[nodes.length - 1].driver_id !== node.driver_id
-    ) {
-      return false;
-    }
+  //   if (!parentNode && nodes[nodes.length - 1].driver_id === node.driver_id) {
+  //     return true;
+  //   } else if (
+  //     !parentNode &&
+  //     nodes[nodes.length - 1].driver_id !== node.driver_id
+  //   ) {
+  //     return false;
+  //   }
 
-    if (!parentNode?.nodes) return true;
-    return (
-      parentNode?.nodes[parentNode?.nodes.length - 1].driver_id ===
-      node.driver_id
-    );
-  };
+  //   if (!parentNode?.nodes) return true;
+  //   return (
+  //     parentNode?.nodes[parentNode?.nodes.length - 1].driver_id ===
+  //     node.driver_id
+  //   );
+  // };
 
-  const isFirstChild = (nodes, node) => {
-    return nodes[0].driver_id === node.driver_id;
-  };
+  // const isFirstChild = (nodes, node) => {
+  //   return nodes[0].driver_id === node.driver_id;
+  // };
 
   const tree = useTree(
     tableData,
@@ -390,7 +389,11 @@ function TableContainer({ data }) {
         field.dataKey === "certificate_of_violations_scan";
       if (index === 0) {
         return (
-          <CellTree item={driver} className={copyCell ? styles.copyCell : ""}>
+          <CellTree
+            key={`cell_${driver.id}_${index}`}
+            item={driver}
+            className={copyCell ? styles.copyCell : ""}
+          >
             {/* <TableLine isFirst={isFirstChild(tableData.nodes, driver)} isLast={isLastChild(tableData.nodes, driver)} treeXLevel={1} treeXLevel={item.treeXLevel}> */}
             {driver[field.dataKey]}
             {/* </TableLine> */}
@@ -542,10 +545,10 @@ function TableContainer({ data }) {
                 <HeaderRow>{createTableHeader()}</HeaderRow>
               </Header>
               <Body>
-                {tableList.map((item) => (
+                {tableList.map((item, index) => (
                   <Row
                     className={item.status === "TR" ? styles.red : ""}
-                    key={item.id}
+                    key={`${item.id}_${index}`}
                     item={item}
                   >
                     {fillTableRow(item)}

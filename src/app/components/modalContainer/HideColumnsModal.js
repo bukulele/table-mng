@@ -25,26 +25,28 @@ function HideColumnsModal({
   }, []);
 
   useEffect(() => {
-    let list = tableData.map((item) => {
-      return (
-        <div
-          key={`columns_hide_key_${item.dataKey}`}
-          className={styles.listPoint}
-        >
-          <input
-            id={`columns_hide_${item.dataKey}`}
-            type="checkbox"
-            value="NAME"
-            checked={!hiddenColumns.includes(item.dataName)}
-            onChange={() => toggleColumn(item.dataName)}
-            className={styles.checkBox}
-          />
-          <label htmlFor={`columns_hide_${item.dataKey}`}>
-            {item.dataName}
-          </label>
-        </div>
-      );
-    });
+    let list = tableData
+      .filter((item) => item.dataKey !== "driver_id")
+      .map((item) => {
+        return (
+          <div
+            key={`columns_hide_key_${item.dataKey}`}
+            className={styles.listPoint}
+          >
+            <input
+              id={`columns_hide_${item.dataKey}`}
+              type="checkbox"
+              value="NAME"
+              checked={!hiddenColumns.includes(item.dataName)}
+              onChange={() => toggleColumn(item.dataName)}
+              className={styles.checkBox}
+            />
+            <label htmlFor={`columns_hide_${item.dataKey}`}>
+              {item.dataName}
+            </label>
+          </div>
+        );
+      });
     setCheckList(list);
   }, [tableData, hiddenColumns]);
 
