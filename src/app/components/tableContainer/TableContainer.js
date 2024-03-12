@@ -7,33 +7,18 @@ import {
   Row,
   HeaderCell,
   Cell,
-  useCustom,
 } from "@table-library/react-table-library/table";
 import DRIVERS_TABLE_FIELDS from "@/app/tableData/driversTable";
 import { useTheme } from "@table-library/react-table-library/theme";
-import { getTheme } from "@table-library/react-table-library/baseline";
 import styles from "./tableContainer.module.css";
 import {
   useSort,
   HeaderCellSort,
-  SortIconPositions,
-  SortToggleType,
 } from "@table-library/react-table-library/sort";
 import copy from "copy-to-clipboard";
 import Button from "../button/Button";
 import HideColumnsModal from "../modalContainer/HideColumnsModal";
-import {
-  useTree,
-  CellTree,
-  TreeExpandClickTypes,
-} from "@table-library/react-table-library/tree";
-import TableLine from "../tableLine/TableLine";
-import { findNodeById } from "@table-library/react-table-library/common";
-import LineIcon from "../tableLine/LineIcon";
-
-// import FolderIcon from "@mui/icons-material/Folder";
-// import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-// import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import { useTree, CellTree } from "@table-library/react-table-library/tree";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
@@ -42,34 +27,9 @@ function TableContainer({ data }) {
   const [hiddenColumns, setHiddenColumns] = useState([]);
   const timeoutRef = useRef(null);
 
-  // const THEME = {
-  //   Table: `
-  //     width: fit-content;
-  //     max-width: 100%;
-  //     grid-template-columns: repeat(${
-  //       DRIVERS_TABLE_FIELDS.length - hiddenColumns.length
-  //     }, auto);
-  //     color: grey;
-  //     grid-column-start: 1;
-  //     grid-column-end: 3;
-  //     height: fit-content;
-  //     max-height: 100%;
-  //   `,
-  //   Header: `
-  //   `,
-  //   HeaderRow: `
-  //   `,
-  //   Row: `
-  //   `,
-  //   HeaderCell: `
-  //   `,
-  //   Cell: `
-  //   `,
-  // };
-
   const THEME = {
     Table: `
-      width: fit-content;
+      min-width: 100%;
       max-width: 100%;
       width: fit-content;
       max-width: 100%;
@@ -126,7 +86,6 @@ function TableContainer({ data }) {
     Cell: ``,
   };
 
-  // const theme = useTheme(getTheme());
   const theme = useTheme(THEME);
 
   const handleSearch = (event) => {
@@ -143,54 +102,11 @@ function TableContainer({ data }) {
     ),
   };
 
-  // const isLastChild = (nodes, node) => {
-  //   const parentNode = findNodeById(
-  //     nodes,
-  //     node.parentNode?.driver_id ? node.parentNode.driver_id.toString() : null
-  //   );
-
-  //   if (!parentNode && nodes[nodes.length - 1].driver_id === node.driver_id) {
-  //     return true;
-  //   } else if (
-  //     !parentNode &&
-  //     nodes[nodes.length - 1].driver_id !== node.driver_id
-  //   ) {
-  //     return false;
-  //   }
-
-  //   if (!parentNode?.nodes) return true;
-  //   return (
-  //     parentNode?.nodes[parentNode?.nodes.length - 1].driver_id ===
-  //     node.driver_id
-  //   );
-  // };
-
-  // const isFirstChild = (nodes, node) => {
-  //   return nodes[0].driver_id === node.driver_id;
-  // };
-
-  const tree = useTree(
-    tableData,
-    {
-      // onChange: (action, state) => {
-      //   console.log(action, state);
-      // },
-    },
-    {
-      // treeIcon: {
-      //   margin: "4px",
-      //   iconDefault: <LineIcon>{"1"}</LineIcon>,
-      //   iconRight: <LineIcon>{"2"}</LineIcon>,
-      //   iconDown: <LineIcon>{"3"}</LineIcon>,
-      // },
-    }
-  );
+  const tree = useTree(tableData, {}, {});
 
   const sort = useSort(
     tableData,
-    {
-      // onChange: () => {},
-    },
+    {},
     {
       sortFns: {
         // id: (array) =>
@@ -394,9 +310,7 @@ function TableContainer({ data }) {
             item={driver}
             className={copyCell ? styles.copyCell : ""}
           >
-            {/* <TableLine isFirst={isFirstChild(tableData.nodes, driver)} isLast={isLastChild(tableData.nodes, driver)} treeXLevel={1} treeXLevel={item.treeXLevel}> */}
             {driver[field.dataKey]}
-            {/* </TableLine> */}
           </CellTree>
         );
       }
