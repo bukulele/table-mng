@@ -18,7 +18,6 @@ import {
 import copy from "copy-to-clipboard";
 import Button from "../button/Button";
 import HideColumnsModal from "../modalContainer/HideColumnsModal";
-import { useTree, CellTree } from "@table-library/react-table-library/tree";
 
 function TableContainer({ data }) {
   const [search, setSearch] = useState("");
@@ -101,8 +100,6 @@ function TableContainer({ data }) {
         item.phone_number.toString().includes(search.toString())
     ),
   };
-
-  const tree = useTree(tableData, {}, {});
 
   const sort = useSort(
     tableData,
@@ -303,17 +300,6 @@ function TableContainer({ data }) {
         field.dataKey === "abstract_scan" ||
         field.dataKey === "criminal_record_check_scan" ||
         field.dataKey === "certificate_of_violations_scan";
-      if (index === 0) {
-        return (
-          <CellTree
-            key={`cell_${driver.id}_${index}`}
-            item={driver}
-            className={copyCell ? styles.copyCell : ""}
-          >
-            {driver[field.dataKey]}
-          </CellTree>
-        );
-      }
       return (
         <Cell
           hide={hiddenColumns.includes(field.dataName)}
@@ -450,7 +436,6 @@ function TableContainer({ data }) {
           horizontalScroll: true,
           fixedHeader: true,
         }}
-        tree={tree}
       >
         {(tableList) => {
           return (
