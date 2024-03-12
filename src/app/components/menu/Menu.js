@@ -6,8 +6,8 @@ function Menu({ menuClick, menuPointChosen }) {
   return (
     <div className={styles.menu}>
       <Button
-        highlighted={menuPointChosen === "Applications"}
-        content={"Applications"}
+        highlighted={menuPointChosen === "Recruiting"}
+        content={"Recruiting"}
         style={"menuPoint"}
         fn={menuClick}
       />

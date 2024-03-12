@@ -33,11 +33,7 @@
     "winter_course_results": null,
     "remarks_comments": "No comments",
     "file_box_number": "1234",
-    "nodes": [
-      {
-        "dl_expiration_date": "2018-08-31"
-      }
-    ],
+    "nodes": null,
     "routes": [1, 2]
   },
   {
