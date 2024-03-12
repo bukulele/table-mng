@@ -151,11 +151,53 @@ function TableContainer({ data }) {
       let copyCell =
         field.dataKey === "phone_number" || field.dataKey === "email";
 
-      let cellIsLink =
-        field.dataKey === "license_scan" ||
-        field.dataKey === "abstract_scan" ||
-        field.dataKey === "criminal_record_check_scan" ||
-        field.dataKey === "certificate_of_violations_scan";
+      let cellIsLink = false;
+      let linkText = "";
+      let linkHref = "";
+
+      switch (field.dataKey) {
+        case "drivers_license_number":
+          cellIsLink = true;
+          linkText = driver[field.dataKey];
+          linkHref = driver.license_scan;
+          break;
+        case "abstract_issue_date":
+          cellIsLink = true;
+          linkText = driver[field.dataKey];
+          linkHref = driver.abstract_scan;
+          break;
+        case "criminal_record_check_expiration_date":
+          cellIsLink = true;
+          linkText = driver[field.dataKey];
+          linkHref = driver.criminal_record_check_scan;
+          break;
+        case "application_date":
+          cellIsLink = true;
+          linkText = driver[field.dataKey];
+          linkHref = driver.reference_check_application;
+          break;
+        case "consent_to_personal_investigation":
+          cellIsLink = true;
+          linkText = "Open document";
+          linkHref = driver[field.dataKey];
+          break;
+        case "certificate_of_violations_scan":
+          cellIsLink = true;
+          linkText = "Open document";
+          linkHref = driver[field.dataKey];
+          break;
+        case "annual_driver_performance_review":
+          cellIsLink = true;
+          linkText = "Open document";
+          linkHref = driver[field.dataKey];
+          break;
+      }
+
+      // let cellIsLink =
+      //   field.dataKey === "drivers_license_number" ||
+      //   field.dataKey === "abstract_issue_date" ||
+      //   field.dataKey === "criminal_record_check_expiration_date" ||
+      //   field.dataKey === "application_date";
       return (
         <Cell
           hide={hiddenColumns.includes(field.dataName)}
@@ -166,14 +208,8 @@ function TableContainer({ data }) {
           }
         >
           {cellIsLink ? (
-            <a
-              className={styles.inTableLink}
-              target="_blank"
-              href={
-                "https://darcymagazine.com/wp-content/uploads/2021/07/funny-memes-40.jpg"
-              }
-            >
-              Open document
+            <a className={styles.inTableLink} target="_blank" href={linkHref}>
+              {linkText}
             </a>
           ) : (
             driver[field.dataKey]
@@ -225,7 +261,7 @@ function TableContainer({ data }) {
           />
         </div>
         <p className={styles.searchDescription}>
-          Search by Driver ID, First Name, Last Name or phone number{" "}
+          Search by Driver ID, First Name, Last Name or Phone Number{" "}
         </p>
       </div>
       <div className={styles.settingsButtonsWrapper}>

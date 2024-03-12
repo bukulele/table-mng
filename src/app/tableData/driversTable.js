@@ -31,12 +31,12 @@ const DRIVERS_TABLE_FIELDS = [
     sort: true,
     show: true,
   },
-  {
-    dataName: "License Scan",
-    dataKey: "license_scan",
-    sort: false,
-    show: false,
-  },
+  // {
+  //   dataName: "License Scan",
+  //   dataKey: "license_scan",
+  //   sort: false,
+  //   show: false,
+  // },
   { dataName: "DL Province", dataKey: "dl_province", sort: true, show: true },
   {
     dataName: "DL expiration Date",
@@ -50,18 +50,18 @@ const DRIVERS_TABLE_FIELDS = [
     sort: true,
     show: false,
   },
-  {
-    dataName: "Abstract Scan",
-    dataKey: "abstract_scan",
-    sort: false,
-    show: false,
-  },
-  {
-    dataName: "Criminal Record Check Scan",
-    dataKey: "criminal_record_check_scan",
-    sort: false,
-    show: false,
-  },
+  // {
+  //   dataName: "Abstract Scan",
+  //   dataKey: "abstract_scan",
+  //   sort: false,
+  //   show: false,
+  // },
+  // {
+  //   dataName: "Criminal Record Check Scan",
+  //   dataKey: "criminal_record_check_scan",
+  //   sort: false,
+  //   show: false,
+  // },
   {
     dataName: "Criminal Record Check Expiration Date",
     dataKey: "criminal_record_check_expiration_date",
@@ -92,12 +92,12 @@ const DRIVERS_TABLE_FIELDS = [
     sort: true,
     show: false,
   },
-  {
-    dataName: "Reference Check Application",
-    dataKey: "reference_check_application",
-    sort: false,
-    show: false,
-  },
+  // {
+  //   dataName: "Reference Check Application",
+  //   dataKey: "reference_check_application",
+  //   sort: false,
+  //   show: false,
+  // },
   {
     dataName: "Consent to Personal Investigation",
     dataKey: "consent_to_personal_investigation",
