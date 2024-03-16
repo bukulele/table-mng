@@ -1,0 +1,23 @@
+.applicationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+}
+
+.inputContainer {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
