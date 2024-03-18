@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./applicationForm.module.css";
 
 function ApplicationForm() {
@@ -9,12 +9,16 @@ function ApplicationForm() {
     phone_number: "",
     email: "",
     routes: "",
-    criminal_record_check_scan: new File([], ""),
+    criminal_record_check_scan: null,
     criminal_record_check_expiration_date: new Date(),
-    pre_employment_road_test_scan: new File([], ""),
+    pre_employment_road_test_scan: null,
     pre_employment_road_test_date: new Date(),
-    consent_to_personal_investigation: new File([], ""),
+    consent_to_personal_investigation: null,
   });
+
+  const criminalRecordCheckScanRef = useRef(null);
+  const preEmploymentRoadTestScanRef = useRef(null);
+  const consentToPersonalInvestigationRef = useRef(null);
 
   const handleChangeText = (event) => {
     const { name, value } = event.target;
@@ -22,14 +26,14 @@ function ApplicationForm() {
   };
 
   const handleFileChange = (event) => {
-    const name = event.target.name;
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: file }));
+    const { name, files } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
     const data = new FormData();
+
     // Append text fields
     Object.entries(formData).forEach(([key, value]) => {
       if (typeof value !== "object") {
@@ -38,20 +42,47 @@ function ApplicationForm() {
     });
 
     // Append file fields
-    for (const [key, value] of Object.entries(formData)) {
-      if (value instanceof File) {
-        data.append(key, value);
-      }
+    if (criminalRecordCheckScanRef.current.files.length > 0) {
+      data.append("files", criminalRecordCheckScanRef.current.files[0]);
+    }
+    if (preEmploymentRoadTestScanRef.current.files.length > 0) {
+      data.append("files", preEmploymentRoadTestScanRef.current.files[0]);
+    }
+    if (consentToPersonalInvestigationRef.current.files.length > 0) {
+      data.append("files", consentToPersonalInvestigationRef.current.files[0]);
     }
 
     fetch("/api/submit-form", {
       method: "POST",
       body: data,
     })
-      // .then((data) => {
-      //   return data.json();
-      // })
-      .then((data) => console.log(data));
+      .then((response) => {
+        if (response.ok) {
+          // Reset form data
+          setFormData({
+            first_name: "",
+            last_name: "",
+            date_of_birth: new Date(),
+            phone_number: "",
+            email: "",
+            routes: "",
+            criminal_record_check_scan: null,
+            criminal_record_check_expiration_date: new Date(),
+            pre_employment_road_test_scan: null,
+            pre_employment_road_test_date: new Date(),
+            consent_to_personal_investigation: null,
+          });
+          // Reset file inputs
+          criminalRecordCheckScanRef.current.value = null;
+          preEmploymentRoadTestScanRef.current.value = null;
+          consentToPersonalInvestigationRef.current.value = null;
+        } else {
+          console.error("Error submitting form");
+        }
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
   };
 
   // ADD ACCEPTABLE FILE TYPES!!!
@@ -116,9 +147,10 @@ function ApplicationForm() {
           Criminal Record Check Scan
         </label>
         <input
-          name={"criminal_record_check_scan"}
-          type={"file"}
+          name="criminal_record_check_scan"
+          type="file"
           onChange={handleFileChange}
+          ref={criminalRecordCheckScanRef}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -137,9 +169,10 @@ function ApplicationForm() {
           Pre-employment Road Test Scan
         </label>
         <input
-          name={"pre_employment_road_test_scan"}
-          type={"file"}
+          name="pre_employment_road_test_scan"
+          type="file"
           onChange={handleFileChange}
+          ref={preEmploymentRoadTestScanRef}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -158,9 +191,10 @@ function ApplicationForm() {
           Consent to Personal Investigation
         </label>
         <input
-          name={"consent_to_personal_investigation"}
-          type={"file"}
+          name="consent_to_personal_investigation"
+          type="file"
           onChange={handleFileChange}
+          ref={consentToPersonalInvestigationRef}
         />
       </div>
       <input type="submit" value={"Submit Application Form"} />
