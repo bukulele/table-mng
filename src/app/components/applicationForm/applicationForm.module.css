@@ -42,3 +42,14 @@
   display: flex;
   gap: 5px;
 }
+
+/* .inputContainer input[type="date"] {
+  display: block;
+  -webkit-appearance: textfield !important;
+  -moz-appearance: textfield !important;
+  min-height: 1.2em;
+  border: 1px solid rgb(118, 118, 118);
+  background-color: transparent;
+  height: 30px;
+  color: black;
+} */
