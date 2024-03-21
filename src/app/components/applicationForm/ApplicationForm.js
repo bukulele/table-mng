@@ -50,6 +50,32 @@ function ApplicationForm() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  const handlePhoneNumberChange = (event) => {
+    const { name } = event.target;
+
+    let value = event.target.value;
+
+    // Remove all non-digit characters
+    const numbers = value.replace(/\D/g, "");
+
+    // Format the string to match +1 XXX XXXXXXX
+    let formattedNumber = "";
+    if (numbers.length > 0) {
+      formattedNumber += "+1 ";
+      if (numbers.length > 1) {
+        formattedNumber += numbers.substring(1, 4);
+        if (numbers.length > 4) {
+          formattedNumber += " " + numbers.substring(4, 11);
+        }
+      }
+    }
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: formattedNumber,
+    }));
+  };
+
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
@@ -160,9 +186,10 @@ function ApplicationForm() {
         <label htmlFor={"phone_number"}>Phone Number</label>
         <input
           name={"phone_number"}
-          type={"tel"}
+          type={"text"}
+          placeholder="+1 XXX XXX XXXX"
           value={formData.phone_number}
-          onChange={handleChangeText}
+          onChange={handlePhoneNumberChange}
         />
       </div>
       <div className={styles.formHeader}>Address (as on Driver's license):</div>
