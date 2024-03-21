@@ -459,7 +459,7 @@ function ApplicationForm() {
         <input
           name={"logbooks"}
           type={"file"}
-          value={formData.logbooks}
+          // value={formData.logbooks}
           onChange={handleFileChange}
         />
       </div>
@@ -470,7 +470,7 @@ function ApplicationForm() {
         <textarea
           name={"accidents_history"}
           type={"file"}
-          value={formData.accidents_history}
+          // value={formData.accidents_history}
           onChange={handleChangeText}
           style={{ resize: "vertical" }}
         />
@@ -482,7 +482,7 @@ function ApplicationForm() {
         <textarea
           name={"traffic_convictions"}
           type={"file"}
-          value={formData.traffic_convictions}
+          // value={formData.traffic_convictions}
           onChange={handleChangeText}
           style={{ resize: "vertical" }}
         />
@@ -572,7 +572,7 @@ function ApplicationForm() {
         <input
           name={"abstract"}
           type={"file"}
-          value={formData.abstract}
+          // value={formData.abstract}
           onChange={handleFileChange}
         />
       </div>
@@ -583,7 +583,7 @@ function ApplicationForm() {
         <input
           name={"license_scan"}
           type={"file"}
-          value={formData.license_scan}
+          // value={formData.license_scan}
           onChange={handleFileChange}
         />
       </div>
@@ -592,7 +592,7 @@ function ApplicationForm() {
         <input
           name={"passport_scan"}
           type={"file"}
-          value={formData.passport_scan}
+          // value={formData.passport_scan}
           onChange={handleFileChange}
         />
       </div>
