@@ -24,7 +24,7 @@ function ApplicationForm() {
     miles_driven_total: "",
     date_available: new Date(),
     eligible_to_enter_usa: false,
-    routes: "",
+    routes: [],
     criminal_record_check_scan: null,
     criminal_record_check_expiration_date: new Date(),
     pre_employment_road_test_scan: null,
@@ -109,6 +109,25 @@ function ApplicationForm() {
       ...prevFormData,
       [name]: event.target.value === "true",
     }));
+  };
+
+  const handleRoutesChange = (event) => {
+    const value = Number(event.target.value);
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      // Add the value to the array if checked
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        routes: [...prevFormData.routes, value],
+      }));
+    } else {
+      // Remove the value from the array if unchecked
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        routes: prevFormData.routes.filter((item) => item !== value),
+      }));
+    }
   };
 
   const handleFileChange = (event) => {
@@ -394,13 +413,39 @@ function ApplicationForm() {
         </div>
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"routes"}>Preferred Routes</label>
-        <input
-          name={"routes"}
-          type={"text"}
-          value={formData.routes}
-          onChange={handleChangeText}
-        />
+        <p>Preferred Routes</p>
+        <div className={styles.optionsContainer}>
+          <div className={styles.optionContainer}>
+            <input
+              type="checkbox"
+              id="option1"
+              value="1"
+              checked={formData.routes.includes(1)}
+              onChange={handleRoutesChange}
+            />
+            <label htmlFor="option1">CA HWY</label>
+          </div>
+          <div className={styles.optionContainer}>
+            <input
+              type="checkbox"
+              id="option2"
+              value="2"
+              checked={formData.routes.includes(2)}
+              onChange={handleRoutesChange}
+            />
+            <label htmlFor="option2">USA</label>
+          </div>
+          <div className={styles.optionContainer}>
+            <input
+              type="checkbox"
+              id="option3"
+              value="3"
+              checked={formData.routes.includes(3)}
+              onChange={handleRoutesChange}
+            />
+            <label htmlFor="option3">City</label>
+          </div>
+        </div>
       </div>
       <div className={styles.inputContainer}>
         <label htmlFor={"logbooks"}>Logbooks from previous employer</label>
