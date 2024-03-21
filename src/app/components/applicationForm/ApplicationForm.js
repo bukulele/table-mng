@@ -10,25 +10,31 @@ function ApplicationForm() {
     phone_number: "",
     email: "",
     street_number: "",
-    street_name: "",
-    apt_number: "",
+    street: "",
+    unit_or_suite: "",
     city: "",
     province: "",
     postal_code: "",
-    highest_education_level: "",
-    school_name: "",
+    highest_level_of_education: "",
+    name_of_school: "",
     school_location: "",
-    certificates: "",
-    social_insurance: "",
-    class_1_license_date: new Date(),
-    available_start_date: new Date(),
-    eligible_enter_usa: false,
+    certificates_additional_training: "",
+    social_insurance_number: "",
+    class1_date: new Date(),
+    miles_driven_total: "",
+    date_available: new Date(),
+    eligible_to_enter_usa: false,
     routes: "",
     criminal_record_check_scan: null,
     criminal_record_check_expiration_date: new Date(),
     pre_employment_road_test_scan: null,
     pre_employment_road_test_date: new Date(),
     consent_to_personal_investigation: null,
+    accidents_history: "",
+    traffic_convictions: "",
+    denied_license: "",
+    denied_license_reason: "",
+    license_suspended_or_revoked: "",
   });
 
   const criminalRecordCheckScanRef = useRef(null);
@@ -170,20 +176,20 @@ function ApplicationForm() {
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"street_name"}>Street Name</label>
+        <label htmlFor={"street"}>Street Name</label>
         <input
-          name={"street_name"}
+          name={"street"}
           type={"text"}
-          value={formData.street_name}
+          value={formData.street}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"apt_number"}>Apt/Unit or Suite #</label>
+        <label htmlFor={"unit_or_suite"}>Apt/Unit or Suite #</label>
         <input
-          name={"apt_number"}
+          name={"unit_or_suite"}
           type={"number"}
-          value={formData.apt_number}
+          value={formData.unit_or_suite}
           onChange={handleChangeText}
         />
       </div>
@@ -216,22 +222,24 @@ function ApplicationForm() {
       </div>
       <div className={styles.formHeader}>Education</div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"highest_education_level"}>
+        <label htmlFor={"highest_level_of_education"}>
           Highest Education Level
         </label>
         <input
-          name={"highest_education_level"}
+          name={"highest_level_of_education"}
           type={"text"}
-          value={formData.highest_education_level}
+          value={formData.highest_level_of_education}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"school_name"}>Name of School/College/University</label>
+        <label htmlFor={"name_of_school"}>
+          Name of School/College/University
+        </label>
         <input
-          name={"school_name"}
+          name={"name_of_school"}
           type={"text"}
-          value={formData.school_name}
+          value={formData.name_of_school}
           onChange={handleChangeText}
         />
       </div>
@@ -245,54 +253,63 @@ function ApplicationForm() {
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"certificates"}>
+        <label htmlFor={"certificates_additional_training"}>
           Certificates or additional training
         </label>
         <input
-          name={"certificates"}
+          name={"certificates_additional_training"}
           type={"text"}
-          value={formData.certificates}
+          value={formData.certificates_additional_training}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.formHeader}>Employment Record</div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"social_insurance"}>
+        <label htmlFor={"social_insurance_number"}>
           Social Insurance Number (visible for Payroll Department only)
         </label>
         <input
-          name={"social_insurance"}
+          name={"social_insurance_number"}
           type={"number"}
-          value={formData.social_insurance}
+          value={formData.social_insurance_number}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"class_1_license_date"}>
+        <label htmlFor={"class1_date"}>
           Issue date of first Class 1 license
         </label>
         <input
-          name={"class_1_license_date"}
+          name={"class1_date"}
           type={"date"}
-          value={formData.class_1_license_date}
+          value={formData.class1_date}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"available_start_date"}>Date available to start</label>
+        <label htmlFor={"miles_driven_total"}>Class 1 Miles Driven Total</label>
         <input
-          name={"available_start_date"}
+          name={"miles_driven_total"}
           type={"date"}
-          value={formData.available_start_date}
+          value={formData.miles_driven_total}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"eligible_enter_usa"}>Eligible to enter USA?</label>
+        <label htmlFor={"date_available"}>Date available to start</label>
         <input
-          name={"eligible_enter_usa"}
+          name={"date_available"}
+          type={"date"}
+          value={formData.date_available}
+          onChange={handleChangeText}
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <label htmlFor={"eligible_to_enter_usa"}>Eligible to enter USA?</label>
+        <input
+          name={"eligible_to_enter_usa"}
           type={"text"}
-          value={formData.eligible_enter_usa}
+          value={formData.eligible_to_enter_usa}
           onChange={handleChangeText}
         />
       </div>
@@ -337,35 +354,35 @@ function ApplicationForm() {
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"license_denied"}>
+        <label htmlFor={"denied_license"}>
           Have you ever been denied a license
         </label>
         <input
-          name={"license_denied"}
+          name={"denied_license"}
           type={"text"}
-          value={formData.license_denied}
+          value={formData.denied_license}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"license_denied_reason"}>
+        <label htmlFor={"denied_license_reason"}>
           Reason for license denial
         </label>
         <input
-          name={"license_denied_reason"}
+          name={"denied_license_reason"}
           type={"text"}
-          value={formData.license_denied_reason}
+          value={formData.denied_license_reason}
           onChange={handleChangeText}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"license_suspended"}>
+        <label htmlFor={"license_suspended_or_revoked"}>
           Has your license ever been suspended or revoked
         </label>
         <input
-          name={"license_suspended"}
+          name={"license_suspended_or_revoked"}
           type={"text"}
-          value={formData.license_suspended}
+          value={formData.license_suspended_or_revoked}
           onChange={handleChangeText}
         />
       </div>
