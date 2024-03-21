@@ -25,6 +25,7 @@ function ApplicationForm() {
     date_available: new Date(),
     eligible_to_enter_usa: false,
     routes: [],
+    logbooks: null,
     criminal_record_check_scan: null,
     criminal_record_check_expiration_date: new Date(),
     pre_employment_road_test_scan: null,
@@ -32,9 +33,13 @@ function ApplicationForm() {
     consent_to_personal_investigation: null,
     accidents_history: "",
     traffic_convictions: "",
-    denied_license: "",
+    denied_license: false,
     denied_license_reason: "",
-    license_suspended_or_revoked: "",
+    license_suspended_or_revoked: false,
+    license_suspended_reason: "",
+    abstract: null,
+    license_scan: null,
+    passport_scan: null,
   });
 
   const criminalRecordCheckScanRef = useRef(null);
@@ -455,7 +460,7 @@ function ApplicationForm() {
           name={"logbooks"}
           type={"file"}
           value={formData.logbooks}
-          onChange={handleChangeText}
+          onChange={handleFileChange}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -467,6 +472,7 @@ function ApplicationForm() {
           type={"file"}
           value={formData.accidents_history}
           onChange={handleChangeText}
+          style={{ resize: "vertical" }}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -478,59 +484,96 @@ function ApplicationForm() {
           type={"file"}
           value={formData.traffic_convictions}
           onChange={handleChangeText}
+          style={{ resize: "vertical" }}
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"denied_license"}>
-          Have you ever been denied a license
-        </label>
-        <input
-          name={"denied_license"}
-          type={"text"}
-          value={formData.denied_license}
-          onChange={handleChangeText}
-        />
+        <p>Have you ever been denied a license?</p>
+        <div className={styles.optionsContainer}>
+          <div className={styles.optionContainer}>
+            <label htmlFor="yesOption">Yes</label>
+            <input
+              type="radio"
+              id="yesOption"
+              name="denied_license"
+              value="true"
+              checked={formData.denied_license === true}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+          <div className={styles.optionContainer}>
+            <label htmlFor="noOption">No</label>
+            <input
+              type="radio"
+              id="noOption"
+              name="denied_license"
+              value="false"
+              checked={formData.denied_license === false}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+        </div>
       </div>
+      {formData.denied_license && (
+        <div className={styles.inputContainer}>
+          <label htmlFor={"denied_license_reason"}>
+            Reason for license denial
+          </label>
+          <input
+            name={"denied_license_reason"}
+            type={"text"}
+            value={formData.denied_license_reason}
+            onChange={handleChangeText}
+          />
+        </div>
+      )}
       <div className={styles.inputContainer}>
-        <label htmlFor={"denied_license_reason"}>
-          Reason for license denial
-        </label>
-        <input
-          name={"denied_license_reason"}
-          type={"text"}
-          value={formData.denied_license_reason}
-          onChange={handleChangeText}
-        />
+        <p>Has your license ever been suspended or revoked</p>
+        <div className={styles.optionsContainer}>
+          <div className={styles.optionContainer}>
+            <label htmlFor="yesOption">Yes</label>
+            <input
+              type="radio"
+              id="yesOption"
+              name="license_suspended_or_revoked"
+              value="true"
+              checked={formData.license_suspended_or_revoked === true}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+          <div className={styles.optionContainer}>
+            <label htmlFor="noOption">No</label>
+            <input
+              type="radio"
+              id="noOption"
+              name="license_suspended_or_revoked"
+              value="false"
+              checked={formData.license_suspended_or_revoked === false}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+        </div>
       </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"license_suspended_or_revoked"}>
-          Has your license ever been suspended or revoked
-        </label>
-        <input
-          name={"license_suspended_or_revoked"}
-          type={"text"}
-          value={formData.license_suspended_or_revoked}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"license_suspended_reason"}>
-          Reason for license denial
-        </label>
-        <input
-          name={"license_suspended_reason"}
-          type={"text"}
-          value={formData.license_suspended_reason}
-          onChange={handleChangeText}
-        />
-      </div>
+      {formData.license_suspended_or_revoked && (
+        <div className={styles.inputContainer}>
+          <label htmlFor={"license_suspended_reason"}>
+            Reason for Suspension or Revocation:
+          </label>
+          <input
+            name={"license_suspended_reason"}
+            type={"text"}
+            value={formData.license_suspended_reason}
+            onChange={handleChangeText}
+          />
+        </div>
+      )}
       <div className={styles.inputContainer}>
         <label htmlFor={"abstract"}>Abstract (not older than 30 days)</label>
         <input
           name={"abstract"}
-          type={"text"}
+          type={"file"}
           value={formData.abstract}
-          onChange={handleChangeText}
+          onChange={handleFileChange}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -539,18 +582,18 @@ function ApplicationForm() {
         </label>
         <input
           name={"license_scan"}
-          type={"text"}
+          type={"file"}
           value={formData.license_scan}
-          onChange={handleChangeText}
+          onChange={handleFileChange}
         />
       </div>
       <div className={styles.inputContainer}>
         <label htmlFor={"passport_scan"}>Passport / US Visa scan</label>
         <input
           name={"passport_scan"}
-          type={"text"}
+          type={"file"}
           value={formData.passport_scan}
-          onChange={handleChangeText}
+          onChange={handleFileChange}
         />
       </div>
       <input type="submit" value={"Submit Application Form"} />
