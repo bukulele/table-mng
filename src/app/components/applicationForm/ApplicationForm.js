@@ -76,6 +76,32 @@ function ApplicationForm() {
     }));
   };
 
+  const handleChangeNumber = (event) => {
+    const { name, value, selectionStart, selectionEnd } = event.target;
+    const oldValue = event.target.defaultValue;
+    const nonDigits = /\D+/g;
+
+    // Check if the new value is numeric or if it's a control action (backspace, delete, arrow keys)
+    // This is simplified; for more complex scenarios, additional checks may be necessary
+    if (!nonDigits.test(value) || value === "") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    } else {
+      // Revert to the old value if non-numeric input is detected
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: oldValue,
+      }));
+
+      // This timeout ensures the cursor position is updated after React re-renders the component
+      setTimeout(() => {
+        event.target.setSelectionRange(selectionStart - 1, selectionEnd - 1);
+      }, 0);
+    }
+  };
+
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
@@ -197,9 +223,9 @@ function ApplicationForm() {
         <label htmlFor={"street_number"}>Street Number</label>
         <input
           name={"street_number"}
-          type={"number"}
+          type={"text"}
           value={formData.street_number}
-          onChange={handleChangeText}
+          onChange={handleChangeNumber}
         />
       </div>
       <div className={styles.inputContainer}>
