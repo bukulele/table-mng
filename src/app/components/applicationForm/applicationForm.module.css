@@ -27,3 +27,13 @@
   font-weight: bold;
   color: black;
 }
+
+.optionsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.optionContainer {
+  display: flex;
+  gap: 5px;
+}

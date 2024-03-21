@@ -102,6 +102,15 @@ function ApplicationForm() {
     }
   };
 
+  const handleTrueFalseChange = (event) => {
+    const { name } = event.target;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: event.target.value === "true",
+    }));
+  };
+
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
@@ -241,7 +250,7 @@ function ApplicationForm() {
         <label htmlFor={"unit_or_suite"}>Apt/Unit or Suite #</label>
         <input
           name={"unit_or_suite"}
-          type={"number"}
+          type={"text"}
           value={formData.unit_or_suite}
           onChange={handleChangeText}
         />
@@ -323,7 +332,7 @@ function ApplicationForm() {
         </label>
         <input
           name={"social_insurance_number"}
-          type={"number"}
+          type={"text"}
           value={formData.social_insurance_number}
           onChange={handleChangeText}
         />
@@ -343,9 +352,9 @@ function ApplicationForm() {
         <label htmlFor={"miles_driven_total"}>Class 1 Miles Driven Total</label>
         <input
           name={"miles_driven_total"}
-          type={"date"}
+          type={"text"}
           value={formData.miles_driven_total}
-          onChange={handleChangeText}
+          onChange={handleChangeNumber}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -358,13 +367,31 @@ function ApplicationForm() {
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"eligible_to_enter_usa"}>Eligible to enter USA?</label>
-        <input
-          name={"eligible_to_enter_usa"}
-          type={"text"}
-          value={formData.eligible_to_enter_usa}
-          onChange={handleChangeText}
-        />
+        <p>Eligible to enter USA?</p>
+        <div className={styles.optionsContainer}>
+          <div className={styles.optionContainer}>
+            <label htmlFor="yesOption">Yes</label>
+            <input
+              type="radio"
+              id="yesOption"
+              name="eligible_to_enter_usa"
+              value="true"
+              checked={formData.eligible_to_enter_usa === true}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+          <div className={styles.optionContainer}>
+            <label htmlFor="noOption">No</label>
+            <input
+              type="radio"
+              id="noOption"
+              name="eligible_to_enter_usa"
+              value="false"
+              checked={formData.eligible_to_enter_usa === false}
+              onChange={handleTrueFalseChange}
+            />
+          </div>
+        </div>
       </div>
       <div className={styles.inputContainer}>
         <label htmlFor={"routes"}>Preferred Routes</label>
