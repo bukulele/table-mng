@@ -3,7 +3,7 @@ import styles from "./applicationForm.module.css";
 import Button from "../button/Button";
 
 function ApplicationForm() {
-  const [formData, setFormData] = useState({
+  const FORM_TEMPLATE = {
     first_name: "",
     last_name: "",
     date_of_birth: new Date(),
@@ -40,11 +40,14 @@ function ApplicationForm() {
     abstract: null,
     license_scan: null,
     passport_scan: null,
-  });
+  };
 
-  const criminalRecordCheckScanRef = useRef(null);
-  const preEmploymentRoadTestScanRef = useRef(null);
-  const consentToPersonalInvestigationRef = useRef(null);
+  const [formData, setFormData] = useState(FORM_TEMPLATE);
+
+  const logbooksRef = useRef(null);
+  const abstractRef = useRef(null);
+  const licenseScanRef = useRef(null);
+  const passportScanRef = useRef(null);
 
   const getCodeOnEmail = () => {
     console.log("get email code");
@@ -169,23 +172,12 @@ function ApplicationForm() {
       .then((response) => {
         if (response.ok) {
           // Reset form data
-          setFormData({
-            first_name: "",
-            last_name: "",
-            date_of_birth: new Date(),
-            phone_number: "",
-            email: "",
-            routes: "",
-            criminal_record_check_scan: null,
-            criminal_record_check_expiration_date: new Date(),
-            pre_employment_road_test_scan: null,
-            pre_employment_road_test_date: new Date(),
-            consent_to_personal_investigation: null,
-          });
+          setFormData(FORM_TEMPLATE);
           // Reset file inputs
-          criminalRecordCheckScanRef.current.value = null;
-          preEmploymentRoadTestScanRef.current.value = null;
-          consentToPersonalInvestigationRef.current.value = null;
+          logbooksRef.current.value = null;
+          abstractRef.current.value = null;
+          licenseScanRef.current.value = null;
+          passportScanRef.current.value = null;
         } else {
           console.error("Error submitting form");
         }
@@ -457,6 +449,7 @@ function ApplicationForm() {
       <div className={styles.inputContainer}>
         <label htmlFor={"logbooks"}>Logbooks from previous employer</label>
         <input
+          ref={logbooksRef}
           name={"logbooks"}
           type={"file"}
           // value={formData.logbooks}
@@ -570,6 +563,7 @@ function ApplicationForm() {
       <div className={styles.inputContainer}>
         <label htmlFor={"abstract"}>Abstract (not older than 30 days)</label>
         <input
+          ref={abstractRef}
           name={"abstract"}
           type={"file"}
           // value={formData.abstract}
@@ -581,6 +575,7 @@ function ApplicationForm() {
           {"Driver's license scan on both sides"}
         </label>
         <input
+          ref={licenseScanRef}
           name={"license_scan"}
           type={"file"}
           // value={formData.license_scan}
@@ -590,6 +585,7 @@ function ApplicationForm() {
       <div className={styles.inputContainer}>
         <label htmlFor={"passport_scan"}>Passport / US Visa scan</label>
         <input
+          ref={passportScanRef}
           name={"passport_scan"}
           type={"file"}
           // value={formData.passport_scan}
