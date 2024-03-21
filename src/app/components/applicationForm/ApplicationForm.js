@@ -246,7 +246,9 @@ function ApplicationForm() {
           onChange={handlePhoneNumberChange}
         />
       </div>
-      <div className={styles.formHeader}>Address (as on Driver's license):</div>
+      <div className={styles.formHeader}>
+        Address (as on Driver\'s license):
+      </div>
       <div className={styles.inputContainer}>
         <label htmlFor={"street_number"}>Street Number</label>
         <input
@@ -533,7 +535,7 @@ function ApplicationForm() {
       </div>
       <div className={styles.inputContainer}>
         <label htmlFor={"license_scan"}>
-          Driver's license scan on both sides
+          Driver\'s license scan on both sides
         </label>
         <input
           name={"license_scan"}
