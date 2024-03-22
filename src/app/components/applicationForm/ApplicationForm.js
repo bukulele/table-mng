@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./applicationForm.module.css";
 import Button from "../button/Button";
+import EmploymentHistory from "./EmploymentHistory";
 
 function ApplicationForm() {
   const FORM_TEMPLATE = {
@@ -36,9 +37,20 @@ function ApplicationForm() {
     abstract: null,
     license_scan: null,
     passport_scan: null,
+    employment_history: [
+      {
+        employer_name: "",
+        job_title: "",
+        start_date: new Date(),
+        end_date: new Date(),
+        reason_for_leaving: "",
+        email: "",
+      },
+    ],
   };
 
   const [formData, setFormData] = useState(FORM_TEMPLATE);
+  const [employmentHistory, setEmploymentHistory] = useState(null);
 
   const logbooksRef = useRef(null);
   const abstractRef = useRef(null);
@@ -182,6 +194,24 @@ function ApplicationForm() {
         console.error("Error submitting form:", error);
       });
   };
+
+  useEffect(() => {
+    let employmentHistoryArr = formData.employment_history.map((item, idx) => {
+      return (
+        <EmploymentHistory
+          key={`employmentHistory_${idx}`}
+          employer_name={item.employer_name}
+          job_title={item.job_title}
+          start_date={item.start_date}
+          end_date={item.end_date}
+          reason_for_leaving={item.reason_for_leaving}
+          email={item.email}
+          handleChangeText={handleChangeText}
+        />
+      );
+    });
+    setEmploymentHistory(employmentHistoryArr);
+  }, []);
 
   // ADD ACCEPTABLE FILE TYPES!!!
   // CHECK DATES TIMEZONES
@@ -442,6 +472,8 @@ function ApplicationForm() {
           </div>
         </div>
       </div>
+      <div className={styles.formHeader}>Employment Record</div>
+      {employmentHistory}
       <div className={styles.inputContainer}>
         <label htmlFor={"logbooks"}>Logbooks from previous employer</label>
         <input
