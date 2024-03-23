@@ -16,7 +16,7 @@ function EmploymentHistory({
   };
 
   return (
-    <>
+    <div className={styles.employmentHistoryContainer}>
       <div className={styles.inputContainer}>
         <label htmlFor={"employer_name"}>Employer Name</label>
         <input
@@ -71,7 +71,7 @@ function EmploymentHistory({
           onChange={handleInput}
         />
       </div>
-    </>
+    </div>
   );
 }
 

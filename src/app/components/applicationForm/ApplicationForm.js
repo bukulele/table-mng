@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./applicationForm.module.css";
 import Button from "../button/Button";
 import EmploymentHistory from "./EmploymentHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function ApplicationForm() {
   const EMPLOYMENT_HISTORY_TEMPLATE = {
@@ -214,25 +214,6 @@ function ApplicationForm() {
         console.error("Error submitting form:", error);
       });
   };
-
-  // useEffect(() => {
-  //   let employmentHistoryArr = formData.employment_history.map((item, idx) => {
-  //     return (
-  //       <EmploymentHistory
-  //         key={`employmentHistory_${idx}`}
-  //         idx={idx}
-  //         employer_name={item.employer_name}
-  //         job_title={item.job_title}
-  //         start_date={item.start_date}
-  //         end_date={item.end_date}
-  //         reason_for_leaving={item.reason_for_leaving}
-  //         email={item.email}
-  //         handleEmploymentHistory={handleEmploymentHistory}
-  //       />
-  //     );
-  //   });
-  //   setEmploymentHistory(employmentHistoryArr);
-  // }, []);
 
   // ADD ACCEPTABLE FILE TYPES!!!
   // CHECK DATES TIMEZONES
@@ -495,8 +476,9 @@ function ApplicationForm() {
       </div>
       <div className={styles.formHeader}>Employment History</div>
       <div className={styles.formHeaderMenu}>
+        <p>Add Position</p>
         <Button
-          content={<FontAwesomeIcon icon={faCirclePlus} size="2x" />}
+          content={<FontAwesomeIcon icon={faPlus} size="2x" />}
           style={"iconButton"}
           fn={addEmploymentHistoryBlock}
         />
