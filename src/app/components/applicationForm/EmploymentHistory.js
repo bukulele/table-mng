@@ -2,14 +2,19 @@ import React from "react";
 import styles from "./applicationForm.module.css";
 
 function EmploymentHistory({
+  idx,
   employer_name,
   job_title,
   start_date,
   end_date,
   reason_for_leaving,
   email,
-  handleChangeText,
+  handleEmploymentHistory,
 }) {
+  const handleInput = (event) => {
+    handleEmploymentHistory(event, idx);
+  };
+
   return (
     <>
       <div className={styles.inputContainer}>
@@ -18,7 +23,7 @@ function EmploymentHistory({
           name={"employer_name"}
           type={"text"}
           value={employer_name}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -27,7 +32,7 @@ function EmploymentHistory({
           name={"job_title"}
           type={"text"}
           value={job_title}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -36,7 +41,7 @@ function EmploymentHistory({
           name={"start_date"}
           type={"date"}
           value={start_date}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -45,7 +50,7 @@ function EmploymentHistory({
           name={"end_date"}
           type={"date"}
           value={end_date}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -54,7 +59,7 @@ function EmploymentHistory({
           name={"reason_for_leaving"}
           type={"text"}
           value={reason_for_leaving}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -63,7 +68,7 @@ function EmploymentHistory({
           name={"email"}
           type={"email"}
           value={email}
-          onChange={handleChangeText}
+          onChange={handleInput}
         />
       </div>
     </>

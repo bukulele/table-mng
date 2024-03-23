@@ -2,8 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./applicationForm.module.css";
 import Button from "../button/Button";
 import EmploymentHistory from "./EmploymentHistory";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 function ApplicationForm() {
+  const EMPLOYMENT_HISTORY_TEMPLATE = {
+    employer_name: "",
+    job_title: "",
+    start_date: new Date(),
+    end_date: new Date(),
+    reason_for_leaving: "",
+    email: "",
+  };
   const FORM_TEMPLATE = {
     first_name: "",
     last_name: "",
@@ -37,20 +47,10 @@ function ApplicationForm() {
     abstract: null,
     license_scan: null,
     passport_scan: null,
-    employment_history: [
-      {
-        employer_name: "",
-        job_title: "",
-        start_date: new Date(),
-        end_date: new Date(),
-        reason_for_leaving: "",
-        email: "",
-      },
-    ],
+    employment_history: [EMPLOYMENT_HISTORY_TEMPLATE],
   };
 
   const [formData, setFormData] = useState(FORM_TEMPLATE);
-  const [employmentHistory, setEmploymentHistory] = useState(null);
 
   const logbooksRef = useRef(null);
   const abstractRef = useRef(null);
@@ -151,6 +151,26 @@ function ApplicationForm() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
   };
 
+  const handleEmploymentHistory = (event, idx) => {
+    const { name, value } = event.target;
+    let employmentHistoryData = [...formData.employment_history];
+    employmentHistoryData[idx][name] = value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      employment_history: [...employmentHistoryData],
+    }));
+  };
+
+  const addEmploymentHistoryBlock = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      employment_history: [
+        ...formData.employment_history,
+        EMPLOYMENT_HISTORY_TEMPLATE,
+      ],
+    }));
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
     const data = new FormData();
@@ -195,23 +215,24 @@ function ApplicationForm() {
       });
   };
 
-  useEffect(() => {
-    let employmentHistoryArr = formData.employment_history.map((item, idx) => {
-      return (
-        <EmploymentHistory
-          key={`employmentHistory_${idx}`}
-          employer_name={item.employer_name}
-          job_title={item.job_title}
-          start_date={item.start_date}
-          end_date={item.end_date}
-          reason_for_leaving={item.reason_for_leaving}
-          email={item.email}
-          handleChangeText={handleChangeText}
-        />
-      );
-    });
-    setEmploymentHistory(employmentHistoryArr);
-  }, []);
+  // useEffect(() => {
+  //   let employmentHistoryArr = formData.employment_history.map((item, idx) => {
+  //     return (
+  //       <EmploymentHistory
+  //         key={`employmentHistory_${idx}`}
+  //         idx={idx}
+  //         employer_name={item.employer_name}
+  //         job_title={item.job_title}
+  //         start_date={item.start_date}
+  //         end_date={item.end_date}
+  //         reason_for_leaving={item.reason_for_leaving}
+  //         email={item.email}
+  //         handleEmploymentHistory={handleEmploymentHistory}
+  //       />
+  //     );
+  //   });
+  //   setEmploymentHistory(employmentHistoryArr);
+  // }, []);
 
   // ADD ACCEPTABLE FILE TYPES!!!
   // CHECK DATES TIMEZONES
@@ -472,8 +493,29 @@ function ApplicationForm() {
           </div>
         </div>
       </div>
-      <div className={styles.formHeader}>Employment Record</div>
-      {employmentHistory}
+      <div className={styles.formHeader}>Employment History</div>
+      <div className={styles.formHeaderMenu}>
+        <Button
+          content={<FontAwesomeIcon icon={faCirclePlus} size="2x" />}
+          style={"iconButton"}
+          fn={addEmploymentHistoryBlock}
+        />
+      </div>
+      {formData.employment_history.map((item, idx) => {
+        return (
+          <EmploymentHistory
+            key={`employmentHistory_${idx}`}
+            idx={idx}
+            employer_name={item.employer_name}
+            job_title={item.job_title}
+            start_date={item.start_date}
+            end_date={item.end_date}
+            reason_for_leaving={item.reason_for_leaving}
+            email={item.email}
+            handleEmploymentHistory={handleEmploymentHistory}
+          />
+        );
+      })}
       <div className={styles.inputContainer}>
         <label htmlFor={"logbooks"}>Logbooks from previous employer</label>
         <input

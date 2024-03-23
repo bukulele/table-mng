@@ -26,3 +26,10 @@
 .classicButton:hover {
   background-color: antiquewhite;
 }
+
+.iconButton {
+  color: #000;
+}
+.iconButton:hover {
+  color: #323232;
+}
