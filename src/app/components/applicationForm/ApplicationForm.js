@@ -151,6 +151,49 @@ function ApplicationForm({ userData }) {
   const handleFileChange = (event) => {
     const { name, files } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
+    uploadFile(name);
+  };
+
+  const uploadFile = (name) => {
+    const data = new FormData();
+
+    let url = "https://portal.4tracksltd.com/api/drivers/";
+
+    if (name === "logbooks") {
+      // url +=
+    }
+
+    if (name === "abstract") {
+      url += `driver_abstracts/`;
+      data.append("scan", abstractRef.current.files[0]);
+    }
+
+    if (name === "license_scan") {
+      url += `driver_licenses/`;
+      data.append("scan", licenseScanRef.current.files[0]);
+    }
+
+    if (name === "passport_scan") {
+      // url +=
+    }
+
+    data.append("driver", userId);
+    data.append("issue_date", "2024-03-25");
+
+    fetch(url, {
+      method: "POST",
+      body: data,
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+        } else {
+          console.error("Error submitting form");
+        }
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
   };
 
   const handleEmploymentHistory = (event, idx) => {
@@ -189,10 +232,10 @@ function ApplicationForm({ userData }) {
       data.append("files", logbooksRef.current.files[0]);
     }
     if (abstractRef.current.files.length > 0) {
-      data.append("files", abstractRef.current.files[0]);
+      // data.append("files", abstractRef.current.files[0]);
     }
     if (licenseScanRef.current.files.length > 0) {
-      data.append("files", licenseScanRef.current.files[0]);
+      // data.append("files", licenseScanRef.current.files[0]);
     }
     if (passportScanRef.current.files.length > 0) {
       data.append("files", passportScanRef.current.files[0]);
