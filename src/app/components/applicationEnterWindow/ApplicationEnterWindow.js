@@ -11,13 +11,17 @@ function ApplicationEnterWindow() {
 
   // Function to handle the initial email check
   const checkEmail = () => {
-    fetch("/api/check-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    })
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://portal.4tracksltd.com/api/drivers/check_email/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.exists) {
           // If user exists, redirect to the application page
           router.push("/application");
@@ -31,11 +35,18 @@ function ApplicationEnterWindow() {
 
   // Function to handle submission of all user information
   const submitUserInfo = () => {
-    fetch("/api/submit-user-info", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, firstName, lastName }),
-    })
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://portal.4tracksltd.com/api/drivers/drivers/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          first_name: firstName,
+          last_name: lastName,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         // Handle response for user info submission
