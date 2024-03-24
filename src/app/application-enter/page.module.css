@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 20px 0;
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    padding: 0;
+  }
+}
