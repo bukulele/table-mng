@@ -206,12 +206,12 @@ function ApplicationForm({ userData }) {
         console.log(response);
         if (response.ok) {
           // Reset form data
-          setFormData(FORM_TEMPLATE);
+          // setFormData(FORM_TEMPLATE);
           // Reset file inputs
-          logbooksRef.current.value = null;
-          abstractRef.current.value = null;
-          licenseScanRef.current.value = null;
-          passportScanRef.current.value = null;
+          // logbooksRef.current.value = null;
+          // abstractRef.current.value = null;
+          // licenseScanRef.current.value = null;
+          // passportScanRef.current.value = null;
         } else {
           console.error("Error submitting form");
         }
@@ -252,17 +252,7 @@ function ApplicationForm({ userData }) {
     <form className={styles.form} onSubmit={onSubmit}>
       <div className={styles.inputContainer}>
         <label htmlFor={"email"}>Email</label>
-        <input
-          name={"email"}
-          type={"email"}
-          value={formData.email}
-          onChange={handleChangeText}
-        />
-        {/* <Button
-          content={"Get code"}
-          style={"classicButton"}
-          fn={getCodeOnEmail}
-        /> */}
+        <input name={"email"} type={"email"} value={formData.email} disabled />
       </div>
       <div className={styles.formHeader}>Contact Details:</div>
       <div className={styles.inputContainer}>
