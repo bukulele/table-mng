@@ -1,11 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./applicationForm.module.css";
 import Button from "../button/Button";
 import EmploymentHistory from "./EmploymentHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import sanitizeData from "@/app/functions/sanitizeData";
 
-function ApplicationForm() {
+function ApplicationForm({ userData }) {
+  const userId = userData.id;
   const EMPLOYMENT_HISTORY_TEMPLATE = {
     employer_name: "",
     job_title: "",
@@ -183,21 +185,25 @@ function ApplicationForm() {
     });
 
     // Append file fields
-    if (criminalRecordCheckScanRef.current.files.length > 0) {
-      data.append("files", criminalRecordCheckScanRef.current.files[0]);
+    if (logbooksRef.current.files.length > 0) {
+      data.append("files", logbooksRef.current.files[0]);
     }
-    if (preEmploymentRoadTestScanRef.current.files.length > 0) {
-      data.append("files", preEmploymentRoadTestScanRef.current.files[0]);
+    if (abstractRef.current.files.length > 0) {
+      data.append("files", abstractRef.current.files[0]);
     }
-    if (consentToPersonalInvestigationRef.current.files.length > 0) {
-      data.append("files", consentToPersonalInvestigationRef.current.files[0]);
+    if (licenseScanRef.current.files.length > 0) {
+      data.append("files", licenseScanRef.current.files[0]);
+    }
+    if (passportScanRef.current.files.length > 0) {
+      data.append("files", passportScanRef.current.files[0]);
     }
 
-    fetch("/api/submit-form", {
-      method: "POST",
+    fetch(`https://portal.4tracksltd.com/api/drivers/drivers/${userId}/`, {
+      method: "PUT",
       body: data,
     })
       .then((response) => {
+        console.log(response);
         if (response.ok) {
           // Reset form data
           setFormData(FORM_TEMPLATE);
@@ -215,6 +221,31 @@ function ApplicationForm() {
       });
   };
 
+  useEffect(() => {
+    if (!userData) return;
+
+    // const sanitizedUserData = sanitizeData(userData);
+
+    for (let key in FORM_TEMPLATE) {
+      if (userData[key]) {
+        if (
+          (key === "routes" || key === "employment_history") &&
+          userData[key].length > 0
+        ) {
+          setFormData((prevData) => ({
+            ...prevData,
+            [key]: [...userData[key]],
+          }));
+        } else if (key !== "routes" && key !== "employment_history") {
+          setFormData((prevData) => ({
+            ...prevData,
+            [key]: userData[key],
+          }));
+        }
+      }
+    }
+  }, []);
+
   // ADD ACCEPTABLE FILE TYPES!!!
   // CHECK DATES TIMEZONES
   return (
@@ -227,11 +258,11 @@ function ApplicationForm() {
           value={formData.email}
           onChange={handleChangeText}
         />
-        <Button
+        {/* <Button
           content={"Get code"}
           style={"classicButton"}
           fn={getCodeOnEmail}
-        />
+        /> */}
       </div>
       <div className={styles.formHeader}>Contact Details:</div>
       <div className={styles.inputContainer}>

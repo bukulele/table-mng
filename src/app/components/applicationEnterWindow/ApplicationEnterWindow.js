@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./applicationEnterForm.module.css";
 
-function ApplicationEnterWindow() {
+function ApplicationEnterWindow({ setUserData }) {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -11,20 +11,22 @@ function ApplicationEnterWindow() {
 
   // Function to handle the initial email check
   const checkEmail = () => {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://portal.4tracksltd.com/api/drivers/check_email/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      }
-    )
-      .then((response) => response.json())
+    fetch("https://portal.4tracksltd.com/api/drivers/check_email/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    })
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         if (data.exists) {
           // If user exists, redirect to the application page
-          router.push("/application");
+          // router.push("/application");
+          setUserData(data.driver);
         } else {
           // If user does not exist, show additional fields
           setUserExists(false);
@@ -35,23 +37,24 @@ function ApplicationEnterWindow() {
 
   // Function to handle submission of all user information
   const submitUserInfo = () => {
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://portal.4tracksltd.com/api/drivers/drivers/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          first_name: firstName,
-          last_name: lastName,
-        }),
-      }
-    )
+    fetch("https://portal.4tracksltd.com/api/drivers/drivers/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         // Handle response for user info submission
-        console.log("User info submitted:", data);
+        // console.log("User info submitted:", data);
         // Optionally redirect or show success message
+        setUserData(data);
       })
       .catch((error) => console.error("Error:", error));
   };
