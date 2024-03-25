@@ -274,6 +274,8 @@ function ApplicationForm({ userData }) {
 
     // const sanitizedUserData = sanitizeData(userData);
 
+    console.log(userData);
+
     for (let key in FORM_TEMPLATE) {
       if (userData[key]) {
         if (

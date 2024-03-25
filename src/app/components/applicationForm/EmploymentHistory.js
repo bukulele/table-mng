@@ -8,7 +8,7 @@ function EmploymentHistory({
   start_date,
   end_date,
   reason_for_leaving,
-  email,
+  employer_contact_email,
   handleEmploymentHistory,
 }) {
   const handleInput = (event) => {
@@ -63,11 +63,11 @@ function EmploymentHistory({
         />
       </div>
       <div className={styles.inputContainer}>
-        <label htmlFor={"email"}>Employer contact Email</label>
+        <label htmlFor={"employer_contact_email"}>Employer contact Email</label>
         <input
-          name={"email"}
+          name={"employer_contact_email"}
           type={"email"}
-          value={email}
+          value={employer_contact_email}
           onChange={handleInput}
         />
       </div>
