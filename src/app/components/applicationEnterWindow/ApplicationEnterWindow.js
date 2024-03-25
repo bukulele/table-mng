@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./applicationEnterForm.module.css";
 import checkNumericInput from "@/app/functions/checkNumericInput";
@@ -13,6 +13,8 @@ function ApplicationEnterWindow({ setUserData }) {
     useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [diverId, setDriverId] = useState(0);
+  const [saveToLocalStorage, setSaveToLocalStorage] = useState(true);
+  const [dataStored, setDataStored] = useState(false);
   // const router = useRouter();
 
   // Function to handle the initial email check
@@ -114,9 +116,58 @@ function ApplicationEnterWindow({ setUserData }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data.driver);
+        if (data.success) {
+          setUserData(data.driver);
+          if (saveToLocalStorage) {
+            console.log("SAVE");
+            // Create an object with the data you want to store
+            const verificationData = {
+              verificationCodeSentAt: data.verification_code_sent_at,
+              diverId: diverId,
+              verificationCode: verificationCode,
+            };
+
+            // Store the object in localStorage as a string
+            localStorage.setItem(
+              "4tracks_verificationData",
+              JSON.stringify(verificationData)
+            );
+          }
+        } else {
+          // handle errors
+        }
       });
   };
+
+  useEffect(() => {
+    const verificationDataString = localStorage.getItem(
+      "4tracks_verificationData"
+    );
+    console.log(verificationDataString);
+    if (verificationDataString) {
+      const verificationData = JSON.parse(verificationDataString);
+      const verificationTime = new Date(
+        verificationData.verificationCodeSentAt
+      ).getTime();
+      const currentTime = new Date().getTime();
+      const timeElapsedInHours =
+        (currentTime - verificationTime) / (1000 * 60 * 60);
+
+      if (timeElapsedInHours < 1) {
+        setDriverId(verificationData.diverId);
+        setVerificationCode(verificationData.verificationCode);
+        setSaveToLocalStorage(false);
+        setDataStored(true);
+        // Less than an hour has passed, so we can proceed with sending the code
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataStored) {
+      sendCode(); // Assumes diverId and verificationCode are accessible
+    }
+  }, [dataStored]);
 
   return (
     <div className={styles.enterWindow}>
