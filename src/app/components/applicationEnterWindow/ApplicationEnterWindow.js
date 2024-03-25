@@ -13,7 +13,7 @@ function ApplicationEnterWindow({ setUserData }) {
     useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [diverId, setDriverId] = useState(0);
-  const [saveToLocalStorage, setSaveToLocalStorage] = useState(true);
+  // const [saveToLocalStorage, setSaveToLocalStorage] = useState(true);
   const [dataStored, setDataStored] = useState(false);
   // const router = useRouter();
 
@@ -118,21 +118,21 @@ function ApplicationEnterWindow({ setUserData }) {
       .then((data) => {
         if (data.success) {
           setUserData(data.driver);
-          if (saveToLocalStorage) {
-            console.log("SAVE");
-            // Create an object with the data you want to store
-            const verificationData = {
-              verificationCodeSentAt: data.verification_code_sent_at,
-              diverId: diverId,
-              verificationCode: verificationCode,
-            };
+          // if (saveToLocalStorage) {
+          console.log("SAVE");
+          // Create an object with the data you want to store
+          const verificationData = {
+            verificationCodeSentAt: data.verification_code_sent_at,
+            diverId: diverId,
+            verificationCode: verificationCode,
+          };
 
-            // Store the object in localStorage as a string
-            localStorage.setItem(
-              "4tracks_verificationData",
-              JSON.stringify(verificationData)
-            );
-          }
+          // Store the object in localStorage as a string
+          localStorage.setItem(
+            "4tracks_verificationData",
+            JSON.stringify(verificationData)
+          );
+          // }
         } else {
           // handle errors
         }
@@ -156,7 +156,7 @@ function ApplicationEnterWindow({ setUserData }) {
       if (timeElapsedInHours < 1) {
         setDriverId(verificationData.diverId);
         setVerificationCode(verificationData.verificationCode);
-        setSaveToLocalStorage(false);
+        // setSaveToLocalStorage(false);
         setDataStored(true);
         // Less than an hour has passed, so we can proceed with sending the code
       }
