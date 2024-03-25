@@ -564,7 +564,7 @@ function ApplicationForm({ userData }) {
             start_date={item.start_date}
             end_date={item.end_date}
             reason_for_leaving={item.reason_for_leaving}
-            email={item.email}
+            employer_contact_email={item.employer_contact_email}
             handleEmploymentHistory={handleEmploymentHistory}
           />
         );
