@@ -5,6 +5,7 @@ import EmploymentHistory from "./EmploymentHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import sanitizeData from "@/app/functions/sanitizeData";
+import checkNumericInput from "@/app/functions/checkNumericInput";
 
 function ApplicationForm({ userData }) {
   const userId = userData.id;
@@ -59,9 +60,9 @@ function ApplicationForm({ userData }) {
   const licenseScanRef = useRef(null);
   const passportScanRef = useRef(null);
 
-  const getCodeOnEmail = () => {
-    console.log("get email code");
-  };
+  // const getCodeOnEmail = () => {
+  //   console.log("get email code");
+  // };
 
   const handleChangeText = (event) => {
     const { name, value } = event.target;
@@ -95,29 +96,33 @@ function ApplicationForm({ userData }) {
   };
 
   const handleChangeNumber = (event) => {
-    const { name, value, selectionStart, selectionEnd } = event.target;
-    const oldValue = event.target.defaultValue;
-    const nonDigits = /\D+/g;
+    checkNumericInput(event, (prevFormData) => ({
+      ...prevFormData,
+      [event.target.name]: event.target.value,
+    }));
+    // const { name, value, selectionStart, selectionEnd } = event.target;
+    // const oldValue = event.target.defaultValue;
+    // const nonDigits = /\D+/g;
 
-    // Check if the new value is numeric or if it's a control action (backspace, delete, arrow keys)
-    // This is simplified; for more complex scenarios, additional checks may be necessary
-    if (!nonDigits.test(value) || value === "") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    } else {
-      // Revert to the old value if non-numeric input is detected
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: oldValue,
-      }));
+    // // Check if the new value is numeric or if it's a control action (backspace, delete, arrow keys)
+    // // This is simplified; for more complex scenarios, additional checks may be necessary
+    // if (!nonDigits.test(value) || value === "") {
+    //   setFormData((prevFormData) => ({
+    //     ...prevFormData,
+    //     [name]: value,
+    //   }));
+    // } else {
+    //   // Revert to the old value if non-numeric input is detected
+    //   setFormData((prevFormData) => ({
+    //     ...prevFormData,
+    //     [name]: oldValue,
+    //   }));
 
-      // This timeout ensures the cursor position is updated after React re-renders the component
-      setTimeout(() => {
-        event.target.setSelectionRange(selectionStart - 1, selectionEnd - 1);
-      }, 0);
-    }
+    //   // This timeout ensures the cursor position is updated after React re-renders the component
+    //   setTimeout(() => {
+    //     event.target.setSelectionRange(selectionStart - 1, selectionEnd - 1);
+    //   }, 0);
+    // }
   };
 
   const handleTrueFalseChange = (event) => {
@@ -229,7 +234,7 @@ function ApplicationForm({ userData }) {
 
     // Append file fields
     if (logbooksRef.current.files.length > 0) {
-      data.append("files", logbooksRef.current.files[0]);
+      data.append("log_books_history", logbooksRef.current.files[0]);
     }
     if (abstractRef.current.files.length > 0) {
       // data.append("files", abstractRef.current.files[0]);
@@ -563,10 +568,12 @@ function ApplicationForm({ userData }) {
         );
       })}
       <div className={styles.inputContainer}>
-        <label htmlFor={"logbooks"}>Logbooks from previous employer</label>
+        <label htmlFor={"log_books_history"}>
+          Logbooks from previous employer
+        </label>
         <input
           ref={logbooksRef}
-          name={"logbooks"}
+          name={"log_books_history"}
           type={"file"}
           // value={formData.logbooks}
           onChange={handleFileChange}
