@@ -15,7 +15,7 @@ function ApplicationForm({ userData }) {
     start_date: new Date(),
     end_date: new Date(),
     reason_for_leaving: "",
-    email: "",
+    employer_contact_email: "",
   };
   const FORM_TEMPLATE = {
     first_name: "",
