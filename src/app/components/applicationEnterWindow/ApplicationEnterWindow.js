@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./applicationEnterForm.module.css";
 import checkNumericInput from "@/app/functions/checkNumericInput";
 import Button from "../button/Button";
@@ -13,9 +12,7 @@ function ApplicationEnterWindow({ setUserData }) {
     useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [diverId, setDriverId] = useState(0);
-  // const [saveToLocalStorage, setSaveToLocalStorage] = useState(true);
   const [dataStored, setDataStored] = useState(false);
-  // const router = useRouter();
 
   // Function to handle the initial email check
   const checkEmail = () => {
@@ -33,30 +30,7 @@ function ApplicationEnterWindow({ setUserData }) {
         console.log(data);
         if (data.exists) {
           sendCode(data.driver_id);
-          // fetch(
-          //   "https://portal.4tracksltd.com/api/drivers/send_verification_code/",
-          //   {
-          //     method: "POST",
-          //     headers: {
-          //       "Content-Type": "application/json",
-          //     },
-          //     body: JSON.stringify({
-          //       id: data.driver_id,
-          //     }),
-          //   }
-          // ).then((response) => {
-          //   if (response.ok) {
-          //     setShowEnterVerificationCode(true);
-          //     setDriverId(data.driver_id);
-          //   } else {
-          //     // catch error?
-          //   }
-          // });
-          // If user exists, redirect to the application page
-          // router.push("/application");
-          // setUserData(data.driver);
         } else {
-          // If user does not exist, show additional fields
           setUserExists(false);
         }
       })
@@ -78,31 +52,13 @@ function ApplicationEnterWindow({ setUserData }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         sendCode(data.id);
-        // setUserData(data);
       })
       .catch((error) => console.error("Error:", error));
   };
 
   const handleCodeInput = (event) => {
     checkNumericInput(event, setVerificationCode);
-    // const { value, selectionStart, selectionEnd } = event.target;
-    // const oldValue = event.target.defaultValue;
-    // const nonDigits = /\D+/g;
-
-    // // Check if the new value is numeric or if it's a control action (backspace, delete, arrow keys)
-    // // This is simplified; for more complex scenarios, additional checks may be necessary
-    // if (!nonDigits.test(value) || value === "") {
-    //   setVerificationCode(value);
-    // } else {
-    //   setVerificationCode(oldValue);
-
-    //   // This timeout ensures the cursor position is updated after React re-renders the component
-    //   setTimeout(() => {
-    //     event.target.setSelectionRange(selectionStart - 1, selectionEnd - 1);
-    //   }, 0);
-    // }
   };
 
   const sendCode = (driverId) => {
@@ -139,8 +95,6 @@ function ApplicationEnterWindow({ setUserData }) {
       .then((data) => {
         if (data.success) {
           setUserData(data.driver);
-          // if (saveToLocalStorage) {
-          console.log("SAVE");
           // Create an object with the data you want to store
           const verificationData = {
             verificationCodeSentAt: data.verification_code_sent_at,
@@ -153,7 +107,6 @@ function ApplicationEnterWindow({ setUserData }) {
             "4tracks_verificationData",
             JSON.stringify(verificationData)
           );
-          // }
         } else {
           // handle errors
           // CLEAN UP FIELDS HERE
@@ -178,16 +131,14 @@ function ApplicationEnterWindow({ setUserData }) {
       if (timeElapsedInHours < 1) {
         setDriverId(verificationData.diverId);
         setVerificationCode(verificationData.verificationCode);
-        // setSaveToLocalStorage(false);
         setDataStored(true);
-        // Less than an hour has passed, so we can proceed with sending the code
       }
     }
   }, []);
 
   useEffect(() => {
     if (dataStored) {
-      verifyCode(); // Assumes diverId and verificationCode are accessible
+      verifyCode();
     }
   }, [dataStored]);
 
