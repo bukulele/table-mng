@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // import sanitizeData from "@/app/functions/sanitizeData";
 import checkNumericInput from "@/app/functions/checkNumericInput";
+import NumericInput from "./NumericInput";
 
 function ApplicationForm({ userData }) {
   const userId = userData.id;
@@ -88,13 +89,6 @@ function ApplicationForm({ userData }) {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: formattedNumber,
-    }));
-  };
-
-  const handleChangeNumber = (event) => {
-    checkNumericInput(event, (prevFormData) => ({
-      ...prevFormData,
-      [event.target.name]: event.target.value,
     }));
   };
 
@@ -308,15 +302,12 @@ function ApplicationForm({ userData }) {
       <div className={styles.formHeader}>
         {"Address (as on Driver's license):"}
       </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"street_number"}>Street Number</label>
-        <input
-          name={"street_number"}
-          type={"text"}
-          value={formData.street_number}
-          onChange={handleChangeNumber}
-        />
-      </div>
+      <NumericInput
+        name={"street_number"}
+        label={"Street Number"}
+        value={formData.street_number}
+        updateState={setFormData}
+      />
       <div className={styles.inputContainer}>
         <label htmlFor={"street"}>Street Name</label>
         <input
@@ -428,15 +419,12 @@ function ApplicationForm({ userData }) {
           onChange={handleChangeText}
         />
       </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"miles_driven_total"}>Class 1 Miles Driven Total</label>
-        <input
-          name={"miles_driven_total"}
-          type={"text"}
-          value={formData.miles_driven_total}
-          onChange={handleChangeNumber}
-        />
-      </div>
+      <NumericInput
+        name={"miles_driven_total"}
+        label={"Class 1 Miles Driven Total"}
+        value={formData.miles_driven_total}
+        updateState={setFormData}
+      />
       <div className={styles.inputContainer}>
         <label htmlFor={"date_available"}>Date available to start</label>
         <input
