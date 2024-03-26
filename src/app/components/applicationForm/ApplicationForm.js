@@ -4,8 +4,6 @@ import Button from "../button/Button";
 import EmploymentHistory from "./EmploymentHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-// import sanitizeData from "@/app/functions/sanitizeData";
-import checkNumericInput from "@/app/functions/checkNumericInput";
 import NumericInput from "./NumericInput";
 import TextInput from "./TextInput";
 import DateInput from "./DateInput";
@@ -139,16 +137,6 @@ function ApplicationForm({ userData }) {
       .catch((error) => {
         console.error("Error submitting form:", error);
       });
-  };
-
-  const handleEmploymentHistory = (event, idx) => {
-    const { name, value } = event.target;
-    let employmentHistoryData = [...formData.employment_history];
-    employmentHistoryData[idx][name] = value;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      employment_history: [...employmentHistoryData],
-    }));
   };
 
   const addEmploymentHistoryBlock = () => {
@@ -425,13 +413,14 @@ function ApplicationForm({ userData }) {
           <EmploymentHistory
             key={`employmentHistory_${idx}`}
             idx={idx}
+            employmentHistoryData={[...formData.employment_history]}
             employer_name={item.employer_name}
             job_title={item.job_title}
             start_date={item.start_date}
             end_date={item.end_date}
             reason_for_leaving={item.reason_for_leaving}
             employer_contact_email={item.employer_contact_email}
-            handleEmploymentHistory={handleEmploymentHistory}
+            updateState={setFormData}
           />
         );
       })}
