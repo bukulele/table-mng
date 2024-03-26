@@ -9,8 +9,10 @@ import TextInput from "./TextInput";
 import DateInput from "./DateInput";
 import TextareaInput from "./TextareaInput";
 import PhoneNumberInput from "./PhoneNumberInput";
+import FileLoader from "./FileLoader";
 
 function ApplicationForm({ userData }) {
+  console.log(userData);
   const userId = userData.id;
   const EMPLOYMENT_HISTORY_TEMPLATE = {
     employer_name: "",
@@ -91,53 +93,53 @@ function ApplicationForm({ userData }) {
     }
   };
 
-  const handleFileChange = (event) => {
-    const { name, files } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
-    uploadFile(name);
-  };
+  // const handleFileChange = (event) => {
+  //   const { name, files } = event.target;
+  //   setFormData((prevFormData) => ({ ...prevFormData, [name]: files[0] }));
+  //   uploadFile(name);
+  // };
 
-  const uploadFile = (name) => {
-    const data = new FormData();
+  // const uploadFile = (name) => {
+  //   const data = new FormData();
 
-    let url = "https://portal.4tracksltd.com/api/drivers/";
+  //   let url = "https://portal.4tracksltd.com/api/drivers/";
 
-    if (name === "logbooks") {
-      // url +=
-    }
+  //   if (name === "logbooks") {
+  //     // url +=
+  //   }
 
-    if (name === "abstract") {
-      url += `driver_abstracts/`;
-      data.append("scan", abstractRef.current.files[0]);
-    }
+  //   if (name === "abstract") {
+  //     url += `driver_abstracts/`;
+  //     data.append("scan", abstractRef.current.files[0]);
+  //   }
 
-    if (name === "license_scan") {
-      url += `driver_licenses/`;
-      data.append("scan", licenseScanRef.current.files[0]);
-    }
+  //   if (name === "license_scan") {
+  //     url += `driver_licenses/`;
+  //     data.append("scan", licenseScanRef.current.files[0]);
+  //   }
 
-    if (name === "passport_scan") {
-      // url +=
-    }
+  //   if (name === "passport_scan") {
+  //     // url +=
+  //   }
 
-    data.append("driver", userId);
-    data.append("issue_date", "2024-03-25");
+  //   data.append("driver", userId);
+  //   data.append("issue_date", "2024-03-25");
 
-    fetch(url, {
-      method: "POST",
-      body: data,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-        } else {
-          console.error("Error submitting form");
-        }
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
-  };
+  //   fetch(url, {
+  //     method: "POST",
+  //     body: data,
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
+  //       if (response.ok) {
+  //       } else {
+  //         console.error("Error submitting form");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error submitting form:", error);
+  //     });
+  // };
 
   const addEmploymentHistoryBlock = () => {
     setFormData((prevFormData) => ({
@@ -424,7 +426,16 @@ function ApplicationForm({ userData }) {
           />
         );
       })}
-      <div className={styles.inputContainer}>
+      <FileLoader
+        driverId={userData.id}
+        data={userData.log_books[0]}
+        apiRoute={
+          "https://portal.4tracksltd.com/api/drivers/log_books_histories/"
+        }
+        name={"log_books_history"}
+        label={"Log books from previous employer"}
+      />
+      {/* <div className={styles.inputContainer}>
         <label htmlFor={"log_books_history"}>
           Logbooks from previous employer
         </label>
@@ -434,7 +445,7 @@ function ApplicationForm({ userData }) {
           type={"file"}
           onChange={handleFileChange}
         />
-      </div>
+      </div> */}
       <TextareaInput
         name={"accidents_history"}
         label={"Accidents History (Past 3 years)"}
@@ -517,7 +528,14 @@ function ApplicationForm({ userData }) {
           updateState={setFormData}
         />
       )}
-      <div className={styles.inputContainer}>
+      <FileLoader
+        driverId={userData.id}
+        data={userData.abstracts[0]}
+        apiRoute={"https://portal.4tracksltd.com/api/drivers/driver_abstracts/"}
+        name={"abstract"}
+        label={"Abstract (not older than 30 days)"}
+      />
+      {/* <div className={styles.inputContainer}>
         <label htmlFor={"abstract"}>Abstract (not older than 30 days)</label>
         <input
           ref={abstractRef}
@@ -525,8 +543,15 @@ function ApplicationForm({ userData }) {
           type={"file"}
           onChange={handleFileChange}
         />
-      </div>
-      <div className={styles.inputContainer}>
+      </div> */}
+      <FileLoader
+        driverId={userData.id}
+        data={userData.licenses[0]}
+        apiRoute={"https://portal.4tracksltd.com/api/drivers/driver_licenses/"}
+        name={"license_scan"}
+        label={"Driver's license scan on both sides"}
+      />
+      {/* <div className={styles.inputContainer}>
         <label htmlFor={"license_scan"}>
           {"Driver's license scan on both sides"}
         </label>
@@ -536,8 +561,15 @@ function ApplicationForm({ userData }) {
           type={"file"}
           onChange={handleFileChange}
         />
-      </div>
-      <div className={styles.inputContainer}>
+      </div> */}
+      <FileLoader
+        driverId={userData.id}
+        data={userData.passports[0]}
+        apiRoute={"https://portal.4tracksltd.com/api/drivers/passport_scans/"}
+        name={"passport_scan"}
+        label={"Passport scan"}
+      />
+      {/* <div className={styles.inputContainer}>
         <label htmlFor={"passport_scan"}>Passport / US Visa scan</label>
         <input
           ref={passportScanRef}
@@ -545,7 +577,7 @@ function ApplicationForm({ userData }) {
           type={"file"}
           onChange={handleFileChange}
         />
-      </div>
+      </div> */}
       <input type="submit" value={"Submit Application Form"} />
     </form>
   );

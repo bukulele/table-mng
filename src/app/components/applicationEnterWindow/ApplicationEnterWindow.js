@@ -28,7 +28,6 @@ function ApplicationEnterWindow({ setUserData }) {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.exists) {
           sendCode(data.driver_id);
         } else {
@@ -115,7 +114,6 @@ function ApplicationEnterWindow({ setUserData }) {
     const verificationDataString = localStorage.getItem(
       "4tracks_verificationData"
     );
-    console.log(verificationDataString);
     if (verificationDataString) {
       const verificationData = JSON.parse(verificationDataString);
       const verificationTime = new Date(
