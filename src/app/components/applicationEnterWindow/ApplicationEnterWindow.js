@@ -32,25 +32,26 @@ function ApplicationEnterWindow({ setUserData }) {
       .then((data) => {
         console.log(data);
         if (data.exists) {
-          fetch(
-            "https://portal.4tracksltd.com/api/drivers/send_verification_code/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                id: data.driver_id,
-              }),
-            }
-          ).then((response) => {
-            if (response.ok) {
-              setShowEnterVerificationCode(true);
-              setDriverId(data.driver_id);
-            } else {
-              // catch error?
-            }
-          });
+          sendCode(data.driver_id);
+          // fetch(
+          //   "https://portal.4tracksltd.com/api/drivers/send_verification_code/",
+          //   {
+          //     method: "POST",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //     },
+          //     body: JSON.stringify({
+          //       id: data.driver_id,
+          //     }),
+          //   }
+          // ).then((response) => {
+          //   if (response.ok) {
+          //     setShowEnterVerificationCode(true);
+          //     setDriverId(data.driver_id);
+          //   } else {
+          //     // catch error?
+          //   }
+          // });
           // If user exists, redirect to the application page
           // router.push("/application");
           // setUserData(data.driver);
@@ -77,8 +78,9 @@ function ApplicationEnterWindow({ setUserData }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setUserData(data);
+        // console.log(data);
+        sendCode(data.id);
+        // setUserData(data);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -103,7 +105,26 @@ function ApplicationEnterWindow({ setUserData }) {
     // }
   };
 
-  const sendCode = () => {
+  const sendCode = (driverId) => {
+    fetch("https://portal.4tracksltd.com/api/drivers/send_verification_code/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: driverId,
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        setShowEnterVerificationCode(true);
+        setDriverId(driverId);
+      } else {
+        // catch error?
+      }
+    });
+  };
+
+  const verifyCode = () => {
     fetch("https://portal.4tracksltd.com/api/drivers/verify_code/", {
       method: "POST",
       headers: {
@@ -135,6 +156,7 @@ function ApplicationEnterWindow({ setUserData }) {
           // }
         } else {
           // handle errors
+          // CLEAN UP FIELDS HERE
         }
       });
   };
@@ -165,7 +187,7 @@ function ApplicationEnterWindow({ setUserData }) {
 
   useEffect(() => {
     if (dataStored) {
-      sendCode(); // Assumes diverId and verificationCode are accessible
+      verifyCode(); // Assumes diverId and verificationCode are accessible
     }
   }, [dataStored]);
 
@@ -205,7 +227,11 @@ function ApplicationEnterWindow({ setUserData }) {
             onChange={handleCodeInput}
             placeholder="Verification code"
           />
-          <Button content={"Send code"} style={"classicButton"} fn={sendCode} />
+          <Button
+            content={"Send code"}
+            style={"classicButton"}
+            fn={verifyCode}
+          />
         </>
       )}
     </div>

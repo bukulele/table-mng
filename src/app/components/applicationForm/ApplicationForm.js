@@ -4,7 +4,7 @@ import Button from "../button/Button";
 import EmploymentHistory from "./EmploymentHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import sanitizeData from "@/app/functions/sanitizeData";
+// import sanitizeData from "@/app/functions/sanitizeData";
 import checkNumericInput from "@/app/functions/checkNumericInput";
 
 function ApplicationForm({ userData }) {
