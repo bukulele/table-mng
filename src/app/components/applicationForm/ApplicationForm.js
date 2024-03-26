@@ -10,6 +10,7 @@ import NumericInput from "./NumericInput";
 import TextInput from "./TextInput";
 import DateInput from "./DateInput";
 import TextareaInput from "./TextareaInput";
+import PhoneNumberInput from "./PhoneNumberInput";
 
 function ApplicationForm({ userData }) {
   const userId = userData.id;
@@ -63,32 +64,6 @@ function ApplicationForm({ userData }) {
   const abstractRef = useRef(null);
   const licenseScanRef = useRef(null);
   const passportScanRef = useRef(null);
-
-  const handlePhoneNumberChange = (event) => {
-    const { name } = event.target;
-
-    let value = event.target.value;
-
-    // Remove all non-digit characters
-    const numbers = value.replace(/\D/g, "");
-
-    // Format the string to match +1 XXX XXXXXXX
-    let formattedNumber = "";
-    if (numbers.length > 0) {
-      formattedNumber += "+1 ";
-      if (numbers.length > 1) {
-        formattedNumber += numbers.substring(1, 4);
-        if (numbers.length > 4) {
-          formattedNumber += " " + numbers.substring(4, 11);
-        }
-      }
-    }
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: formattedNumber,
-    }));
-  };
 
   const handleTrueFalseChange = (event) => {
     const { name } = event.target;
@@ -278,16 +253,13 @@ function ApplicationForm({ userData }) {
         value={formData.date_of_birth}
         updateState={setFormData}
       />
-      <div className={styles.inputContainer}>
-        <label htmlFor={"phone_number"}>Phone Number</label>
-        <input
-          name={"phone_number"}
-          type={"text"}
-          placeholder="+1 XXX XXX XXXX"
-          value={formData.phone_number}
-          onChange={handlePhoneNumberChange}
-        />
-      </div>
+      <PhoneNumberInput
+        name={"phone_number"}
+        label={"Phone Number"}
+        placeholder="+1 XXX XXX XXXX"
+        value={formData.phone_number}
+        updateState={setFormData}
+      />
       <div className={styles.formHeader}>
         {"Address (as on Driver's license):"}
       </div>
