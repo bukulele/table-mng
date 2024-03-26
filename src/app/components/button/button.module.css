@@ -16,11 +16,12 @@
 }
 
 .classicButton {
-  border: 2px solid gray;
+  border: 1px solid gray;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
   width: fit-content;
+  color: gray;
 }
 
 .classicButton:hover {

@@ -63,12 +63,14 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
   }, []);
 
   return (
-    <div>
-      {loadedFileName && (
-        <div>
-          <p>File loaded:</p>
-          <p>{loadedFileName}</p>
+    <div className={styles.fileLoader}>
+      {loadedFileName ? (
+        <div className={styles.fileLoaderTextContainer}>
+          <p className={styles.fileLoaderHeader}>File loaded:</p>
+          <p className={styles.fileLoaderText}>{loadedFileName}</p>
         </div>
+      ) : (
+        <p className={styles.fileLoaderHeader}>No file loaded</p>
       )}
       <Button
         content={"Load file"}
@@ -103,7 +105,7 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
       >
         {fileSent ? (
           <>
-            <p>File sent successfully</p>
+            <p className={styles.fileLoaderHeader}>File sent successfully</p>
             <Button
               content={"OK"}
               style={"classicButton"}
@@ -120,16 +122,18 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
             />
             <label htmlFor={name}>{label}</label>
             <input name={name} type={"file"} onChange={handleFileChange} />
-            <Button
-              content={"Close"}
-              style={"classicButton"}
-              fn={closeLoadFileModal}
-            />
-            <Button
-              content={"Send file"}
-              style={"classicButton"}
-              fn={uploadFile}
-            />
+            <div className={styles.buttonsContainer}>
+              <Button
+                content={"Close"}
+                style={"classicButton"}
+                fn={closeLoadFileModal}
+              />
+              <Button
+                content={"Send file"}
+                style={"classicButton"}
+                fn={uploadFile}
+              />
+            </div>
           </div>
         )}
       </Modal>
