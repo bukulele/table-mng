@@ -172,12 +172,17 @@ function ApplicationEnterWindow({ setUserData }) {
       {showEnterVerificationCode && (
         <>
           <p>The verification code has been sent to your email</p>
-          <input
+          <NumericInput
+            value={verificationCode}
+            updateState={setFormData}
+            placeholder={"Verification code"}
+          />
+          {/* <input
             type={"text"}
             value={verificationCode}
             onChange={handleCodeInput}
             placeholder="Verification code"
-          />
+          /> */}
           <Button
             content={"Send code"}
             style={"classicButton"}
