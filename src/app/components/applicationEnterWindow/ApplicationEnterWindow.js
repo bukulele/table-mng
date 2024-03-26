@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./applicationEnterForm.module.css";
-import checkNumericInput from "@/app/functions/checkNumericInput";
 import Button from "../button/Button";
+import NumericInput from "../applicationForm/NumericInput";
+import TextInput from "../applicationForm/TextInput";
 
 function ApplicationEnterWindow({ setUserData }) {
   const [email, setEmail] = useState("");
@@ -55,10 +56,6 @@ function ApplicationEnterWindow({ setUserData }) {
         sendCode(data.id);
       })
       .catch((error) => console.error("Error:", error));
-  };
-
-  const handleCodeInput = (event) => {
-    checkNumericInput(event, setVerificationCode);
   };
 
   const sendCode = (driverId) => {
@@ -154,19 +151,21 @@ function ApplicationEnterWindow({ setUserData }) {
 
       {userExists === false && (
         <>
-          <input
-            type="text"
-            placeholder="First Name"
+          <TextInput
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            updateState={setFirstName}
+            placeholder="First Name"
           />
-          <input
-            type="text"
-            placeholder="Last Name"
+          <TextInput
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            updateState={setFirstName}
+            placeholder="Last Name"
           />
-          <button onClick={submitUserInfo}>Submit</button>
+          <Button
+            content={"Submit"}
+            style={"classicButton"}
+            fn={submitUserInfo}
+          />
         </>
       )}
       {showEnterVerificationCode && (
@@ -174,15 +173,9 @@ function ApplicationEnterWindow({ setUserData }) {
           <p>The verification code has been sent to your email</p>
           <NumericInput
             value={verificationCode}
-            updateState={setFormData}
+            updateState={setVerificationCode}
             placeholder={"Verification code"}
           />
-          {/* <input
-            type={"text"}
-            value={verificationCode}
-            onChange={handleCodeInput}
-            placeholder="Verification code"
-          /> */}
           <Button
             content={"Send code"}
             style={"classicButton"}

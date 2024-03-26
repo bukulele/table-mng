@@ -7,6 +7,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // import sanitizeData from "@/app/functions/sanitizeData";
 import checkNumericInput from "@/app/functions/checkNumericInput";
 import NumericInput from "./NumericInput";
+import TextInput from "./TextInput";
+import DateInput from "./DateInput";
+import TextareaInput from "./TextareaInput";
 
 function ApplicationForm({ userData }) {
   const userId = userData.id;
@@ -60,11 +63,6 @@ function ApplicationForm({ userData }) {
   const abstractRef = useRef(null);
   const licenseScanRef = useRef(null);
   const passportScanRef = useRef(null);
-
-  const handleChangeText = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
 
   const handlePhoneNumberChange = (event) => {
     const { name } = event.target;
@@ -262,33 +260,24 @@ function ApplicationForm({ userData }) {
         <input name={"email"} type={"email"} value={formData.email} disabled />
       </div>
       <div className={styles.formHeader}>Contact Details:</div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"first_name"}>First Name</label>
-        <input
-          name={"first_name"}
-          type={"text"}
-          value={formData.first_name}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"last_name"}>Last Name</label>
-        <input
-          name={"last_name"}
-          type={"text"}
-          value={formData.last_name}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"date_of_birth"}>Date of Birth</label>
-        <input
-          name={"date_of_birth"}
-          type={"date"}
-          value={formData.date_of_birth}
-          onChange={handleChangeText}
-        />
-      </div>
+      <TextInput
+        name={"first_name"}
+        label={"First Name"}
+        value={formData.first_name}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"last_name"}
+        label={"Last Name"}
+        value={formData.last_name}
+        updateState={setFormData}
+      />
+      <DateInput
+        name={"date_of_birth"}
+        label={"Date of Birth"}
+        value={formData.date_of_birth}
+        updateState={setFormData}
+      />
       <div className={styles.inputContainer}>
         <label htmlFor={"phone_number"}>Phone Number</label>
         <input
@@ -308,132 +297,86 @@ function ApplicationForm({ userData }) {
         value={formData.street_number}
         updateState={setFormData}
       />
-      <div className={styles.inputContainer}>
-        <label htmlFor={"street"}>Street Name</label>
-        <input
-          name={"street"}
-          type={"text"}
-          value={formData.street}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"unit_or_suite"}>Apt/Unit or Suite #</label>
-        <input
-          name={"unit_or_suite"}
-          type={"text"}
-          value={formData.unit_or_suite}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"city"}>City</label>
-        <input
-          name={"city"}
-          type={"text"}
-          value={formData.city}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"province"}>Province</label>
-        <input
-          name={"province"}
-          type={"text"}
-          value={formData.province}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"postal_code"}>Postal Code</label>
-        <input
-          name={"postal_code"}
-          type={"text"}
-          value={formData.postal_code}
-          onChange={handleChangeText}
-        />
-      </div>
+      <TextInput
+        name={"street"}
+        label={"Street Name"}
+        value={formData.street}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"unit_or_suite"}
+        label={"Apt/Unit or Suite #"}
+        value={formData.unit_or_suite}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"city"}
+        label={"City"}
+        value={formData.city}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"province"}
+        label={"Province"}
+        value={formData.province}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"postal_code"}
+        label={"Postal Code"}
+        value={formData.postal_code}
+        updateState={setFormData}
+      />
       <div className={styles.formHeader}>Education</div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"highest_level_of_education"}>
-          Highest Education Level
-        </label>
-        <input
-          name={"highest_level_of_education"}
-          type={"text"}
-          value={formData.highest_level_of_education}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"name_of_school"}>
-          Name of School/College/University
-        </label>
-        <input
-          name={"name_of_school"}
-          type={"text"}
-          value={formData.name_of_school}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"school_location"}>Location</label>
-        <input
-          name={"school_location"}
-          type={"text"}
-          value={formData.school_location}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"certificates_additional_training"}>
-          Certificates or additional training
-        </label>
-        <input
-          name={"certificates_additional_training"}
-          type={"text"}
-          value={formData.certificates_additional_training}
-          onChange={handleChangeText}
-        />
-      </div>
+      <TextInput
+        name={"highest_level_of_education"}
+        label={"Highest Education Level"}
+        value={formData.highest_level_of_education}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"name_of_school"}
+        label={"Name of School/College/University"}
+        value={formData.name_of_school}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"school_location"}
+        label={"Location"}
+        value={formData.school_location}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"certificates_additional_training"}
+        label={"Certificates or additional training"}
+        value={formData.certificates_additional_training}
+        updateState={setFormData}
+      />
       <div className={styles.formHeader}>Employment Record</div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"social_insurance_number"}>
-          Social Insurance Number (visible for Payroll Department only)
-        </label>
-        <input
-          name={"social_insurance_number"}
-          type={"text"}
-          value={formData.social_insurance_number}
-          onChange={handleChangeText}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"class1_date"}>
-          Issue date of first Class 1 license
-        </label>
-        <input
-          name={"class1_date"}
-          type={"date"}
-          value={formData.class1_date}
-          onChange={handleChangeText}
-        />
-      </div>
+      <TextInput
+        name={"social_insurance_number"}
+        label={"Social Insurance Number (visible for Payroll Department only)"}
+        value={formData.social_insurance_number}
+        updateState={setFormData}
+      />
+      <TextInput
+        name={"class1_date"}
+        label={"Issue date of first Class 1 license"}
+        value={formData.class1_date}
+        updateState={setFormData}
+      />
       <NumericInput
         name={"miles_driven_total"}
         label={"Class 1 Miles Driven Total"}
         value={formData.miles_driven_total}
         updateState={setFormData}
       />
-      <div className={styles.inputContainer}>
-        <label htmlFor={"date_available"}>Date available to start</label>
-        <input
-          name={"date_available"}
-          type={"date"}
-          value={formData.date_available}
-          onChange={handleChangeText}
-        />
-      </div>
+      <DateInput
+        name={"date_available"}
+        label={"Date available to start"}
+        value={formData.date_available}
+        updateState={setFormData}
+      />
       <div className={styles.inputContainer}>
         <p>Eligible to enter USA?</p>
         <div className={styles.optionsContainer}>
@@ -531,28 +474,18 @@ function ApplicationForm({ userData }) {
           onChange={handleFileChange}
         />
       </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"accidents_history"}>
-          Accidents History - Past 3 years
-        </label>
-        <textarea
-          name={"accidents_history"}
-          type={"file"}
-          onChange={handleChangeText}
-          style={{ resize: "vertical" }}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor={"traffic_convictions"}>
-          Traffic Convictions and Forfeitures (Past 3 Years)
-        </label>
-        <textarea
-          name={"traffic_convictions"}
-          type={"file"}
-          onChange={handleChangeText}
-          style={{ resize: "vertical" }}
-        />
-      </div>
+      <TextareaInput
+        name={"accidents_history"}
+        label={"Accidents History (Past 3 years)"}
+        value={formData.accidents_history}
+        updateState={setFormData}
+      />
+      <TextareaInput
+        name={"traffic_convictions"}
+        label={"Traffic Convictions and Forfeitures (Past 3 Years)"}
+        value={formData.traffic_convictions}
+        updateState={setFormData}
+      />
       <div className={styles.inputContainer}>
         <p>Have you ever been denied a license?</p>
         <div className={styles.optionsContainer}>
@@ -581,17 +514,12 @@ function ApplicationForm({ userData }) {
         </div>
       </div>
       {formData.denied_license && (
-        <div className={styles.inputContainer}>
-          <label htmlFor={"denied_license_reason"}>
-            Reason for license denial
-          </label>
-          <input
-            name={"denied_license_reason"}
-            type={"text"}
-            value={formData.denied_license_reason}
-            onChange={handleChangeText}
-          />
-        </div>
+        <TextInput
+          name={"denied_license_reason"}
+          label={"Reason for license denial"}
+          value={formData.denied_license_reason}
+          updateState={setFormData}
+        />
       )}
       <div className={styles.inputContainer}>
         <p>Has your license ever been suspended or revoked</p>
@@ -621,17 +549,12 @@ function ApplicationForm({ userData }) {
         </div>
       </div>
       {formData.license_suspended_or_revoked && (
-        <div className={styles.inputContainer}>
-          <label htmlFor={"license_suspended_reason"}>
-            Reason for Suspension or Revocation:
-          </label>
-          <input
-            name={"license_suspended_reason"}
-            type={"text"}
-            value={formData.license_suspended_reason}
-            onChange={handleChangeText}
-          />
-        </div>
+        <TextInput
+          name={"license_suspended_reason"}
+          label={"Reason for Suspension or Revocation:"}
+          value={formData.license_suspended_reason}
+          updateState={setFormData}
+        />
       )}
       <div className={styles.inputContainer}>
         <label htmlFor={"abstract"}>Abstract (not older than 30 days)</label>
