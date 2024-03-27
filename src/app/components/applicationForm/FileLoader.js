@@ -9,7 +9,7 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [fileSent, setFileSent] = useState(false);
-  const [fileDate, setFileDate] = useState(new Date());
+  const [fileDate, setFileDate] = useState("");
 
   const showLoadFileModal = () => {
     setModalIsOpen(true);
@@ -56,7 +56,7 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
     if (!data) return;
 
     let fileName = "";
-    let fileNameArr = data.scan.split("/");
+    let fileNameArr = data.file.split("/");
     fileName = fileNameArr[fileNameArr.length - 1];
 
     setLoadedFileName(fileName);
@@ -64,13 +64,14 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
 
   return (
     <div className={styles.fileLoader}>
+      <p className={styles.fileLoaderHeader}>{label}</p>
       {loadedFileName ? (
         <div className={styles.fileLoaderTextContainer}>
-          <p className={styles.fileLoaderHeader}>File loaded:</p>
+          <p className={styles.fileLoaderTextMain}>File loaded:</p>
           <p className={styles.fileLoaderText}>{loadedFileName}</p>
         </div>
       ) : (
-        <p className={styles.fileLoaderHeader}>No file loaded</p>
+        <p className={styles.fileLoaderTextMain}>No file loaded</p>
       )}
       <Button
         content={"Load file"}
@@ -105,7 +106,7 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
       >
         {fileSent ? (
           <>
-            <p className={styles.fileLoaderHeader}>File sent successfully</p>
+            <p className={styles.fileLoaderTextMain}>File sent successfully</p>
             <Button
               content={"OK"}
               style={"classicButton"}
@@ -114,13 +115,13 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
           </>
         ) : (
           <div className={styles.inputContainer}>
+            <p className={styles.fileLoaderHeader}>{label}</p>
             <DateInput
               name={`date${name}`}
               label={"Please, enter the date of document"}
               value={fileDate}
               updateState={setFileDate}
             />
-            <label htmlFor={name}>{label}</label>
             <input name={name} type={"file"} onChange={handleFileChange} />
             <div className={styles.buttonsContainer}>
               <Button

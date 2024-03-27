@@ -67,6 +67,11 @@
 
 .fileLoaderHeader {
   font-weight: 700;
+  font-size: 14px;
+}
+
+.fileLoaderTextMain {
+  font-weight: 700;
   font-size: 12px;
 }
 
