@@ -3,13 +3,20 @@ import Button from "../button/Button";
 import Modal from "react-modal";
 import DateInput from "./DateInput";
 import styles from "./applicationForm.module.css";
+import TextInput from "./TextInput";
+import ProvinceSelector from "./ProvinceSelector";
 
-function FileLoader({ driverId, data, apiRoute, name, label }) {
+function FileLoaderDL({ driverId, data, apiRoute, name, label }) {
   const [loadedFileName, setLoadedFileName] = useState("");
+  const [loadedFileName2, setLoadedFileName2] = useState("");
+  const [dLNumber, setDLNumber] = useState("");
+  const [dLIssueDate, setDLIssueDate] = useState("");
+  const [dLExpDate, setDLExpDate] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [fileSent, setFileSent] = useState(false);
   const [fileDate, setFileDate] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("");
 
   const showLoadFileModal = () => {
     setModalIsOpen(true);
@@ -56,7 +63,8 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
   }, []);
 
   useEffect(() => {
-    if (!data) return;
+    console.log(name);
+    if (!data || !data.file) return;
 
     let fileName = "";
     let fileNameArr = data.file.split("/");
@@ -119,15 +127,36 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
         ) : (
           <div className={styles.inputContainer}>
             <p className={styles.fileLoaderHeader}>{label}</p>
-            {name === "abstract" && (
-              <DateInput
-                name={`date${name}`}
-                label={"Please, enter the date of document"}
-                value={fileDate}
-                updateState={setFileDate}
-              />
-            )}
-            <input name={name} type={"file"} onChange={handleFileChange} />
+            <TextInput
+              name={"dl_number"}
+              label={"DL Number"}
+              value={dLNumber}
+              updateState={setDLNumber}
+            />
+            <ProvinceSelector
+              value={selectedProvince}
+              updateState={setSelectedProvince}
+            />
+            <DateInput
+              name={`issue_date_${name}`}
+              label={"DL Issue Date"}
+              value={dLIssueDate}
+              updateState={setDLIssueDate}
+            />
+            <DateInput
+              name={`exp_date_${name}`}
+              label={"DL Expiration Date"}
+              value={dLExpDate}
+              updateState={setDLExpDate}
+            />
+            <label htmlFor="dl_front">DL front side scan</label>
+            <input
+              name={"dl_front"}
+              type={"file"}
+              onChange={handleFileChange}
+            />
+            <label htmlFor="dl_back">DL back side scan</label>
+            <input name={"dl_back"} type={"file"} onChange={handleFileChange} />
             <div className={styles.buttonsContainer}>
               <Button
                 content={"Close"}
@@ -147,4 +176,4 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
   );
 }
 
-export default FileLoader;
+export default FileLoaderDL;

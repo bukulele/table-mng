@@ -10,6 +10,7 @@ import DateInput from "./DateInput";
 import TextareaInput from "./TextareaInput";
 import PhoneNumberInput from "./PhoneNumberInput";
 import FileLoader from "./FileLoader";
+import FileLoaderDL from "./FileLoaderDL";
 
 function ApplicationForm({ userData }) {
   console.log(userData);
@@ -457,12 +458,12 @@ function ApplicationForm({ userData }) {
         name={"abstract"}
         label={"Abstract (not older than 30 days)"}
       />
-      <FileLoader
+      <FileLoaderDL
         driverId={userData.id}
         data={userData.licenses[0]}
         apiRoute={"https://portal.4tracksltd.com/api/drivers/driver_licenses/"}
         name={"license_scan"}
-        label={"Driver's license scan on both sides"}
+        label={"Driver's license data"}
       />
       <FileLoader
         driverId={userData.id}
