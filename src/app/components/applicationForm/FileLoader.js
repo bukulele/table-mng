@@ -29,7 +29,10 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
 
     data.append("file", file);
     data.append("driver", driverId);
-    data.append("issue_date", fileDate);
+
+    if (name === "abstract") {
+      data.append("issue_date", fileDate);
+    }
 
     fetch(apiRoute, {
       method: "POST",
@@ -53,6 +56,7 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
   }, []);
 
   useEffect(() => {
+    console.log(name);
     if (!data) return;
 
     let fileName = "";
@@ -116,12 +120,14 @@ function FileLoader({ driverId, data, apiRoute, name, label }) {
         ) : (
           <div className={styles.inputContainer}>
             <p className={styles.fileLoaderHeader}>{label}</p>
-            <DateInput
-              name={`date${name}`}
-              label={"Please, enter the date of document"}
-              value={fileDate}
-              updateState={setFileDate}
-            />
+            {name === "abstract" && (
+              <DateInput
+                name={`date${name}`}
+                label={"Please, enter the date of document"}
+                value={fileDate}
+                updateState={setFileDate}
+              />
+            )}
             <input name={name} type={"file"} onChange={handleFileChange} />
             <div className={styles.buttonsContainer}>
               <Button
