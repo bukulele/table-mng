@@ -12,10 +12,10 @@ function FileLoaderDL({ driverId, data, apiRoute, name, label }) {
   const [dLNumber, setDLNumber] = useState("");
   const [dLIssueDate, setDLIssueDate] = useState("");
   const [dLExpDate, setDLExpDate] = useState("");
+  const [dLScanFront, setDLScanFront] = useState(null);
+  const [dLScanBack, setDLScanBack] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [file, setFile] = useState(null);
   const [fileSent, setFileSent] = useState(false);
-  const [fileDate, setFileDate] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
 
   const showLoadFileModal = () => {
@@ -27,19 +27,27 @@ function FileLoaderDL({ driverId, data, apiRoute, name, label }) {
   };
 
   const handleFileChange = (event) => {
-    const { files } = event.target;
-    setFile(files[0]);
+    const { name, files } = event.target;
+
+    if (name === "dl_front") {
+      setDLScanFront(files[0]);
+    }
+
+    if (name === "dl_back") {
+      setDLScanBack(files[0]);
+    }
   };
 
   const uploadFile = () => {
     const data = new FormData();
 
-    data.append("file", file);
+    data.append("file", dLScanFront);
+    data.append("file2", dLScanBack);
     data.append("driver", driverId);
-
-    if (name === "abstract") {
-      data.append("issue_date", fileDate);
-    }
+    data.append("dl_number", dLNumber);
+    data.append("dl_province", selectedProvince);
+    data.append("issue_date", dLIssueDate);
+    data.append("expiration_date", dLExpDate);
 
     fetch(apiRoute, {
       method: "POST",
@@ -63,14 +71,21 @@ function FileLoaderDL({ driverId, data, apiRoute, name, label }) {
   }, []);
 
   useEffect(() => {
-    console.log(name);
-    if (!data || !data.file) return;
+    if (!data) return;
 
-    let fileName = "";
-    let fileNameArr = data.file.split("/");
-    fileName = fileNameArr[fileNameArr.length - 1];
+    if (data.file) {
+      let fileName = "";
+      let fileNameArr = data.file.split("/");
+      fileName = fileNameArr[fileNameArr.length - 1];
+      setLoadedFileName(fileName);
+    }
 
-    setLoadedFileName(fileName);
+    if (data.file2) {
+      let fileName2 = "";
+      let fileNameArr2 = data.file2.split("/");
+      fileName2 = fileNameArr2[fileNameArr2.length - 1];
+      setLoadedFileName2(fileName2);
+    }
   }, []);
 
   return (
@@ -78,8 +93,9 @@ function FileLoaderDL({ driverId, data, apiRoute, name, label }) {
       <p className={styles.fileLoaderHeader}>{label}</p>
       {loadedFileName ? (
         <div className={styles.fileLoaderTextContainer}>
-          <p className={styles.fileLoaderTextMain}>File loaded:</p>
+          <p className={styles.fileLoaderTextMain}>Files loaded:</p>
           <p className={styles.fileLoaderText}>{loadedFileName}</p>
+          <p className={styles.fileLoaderText}>{loadedFileName2}</p>
         </div>
       ) : (
         <p className={styles.fileLoaderTextMain}>No file loaded</p>
